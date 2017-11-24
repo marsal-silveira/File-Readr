@@ -1,4 +1,4 @@
-package br.com.marsal.silveira;
+package br.com.marsalsilveira;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
