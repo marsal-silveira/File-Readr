@@ -1,7 +1,7 @@
 package br.com.marsalsilveira.readr.utils;
 
 /**
- *
+ * String utils class.
  */
 public final class StringUtils {
 
@@ -13,31 +13,27 @@ public final class StringUtils {
     //******************************************************************************************************************
 
     /**
-     * Check if a String has a valid value (isn't null and it's value is not blank)
+     * Check if the given string is null or empty.
      *
-     * @param str string to be validate
-     * @return true if [str] has no value
+     * @param str The string to be checked.
+     *
+     * @return true if the string is null or empty. False otherwise.
      */
     public static boolean isEmpty(String str) {
 
-        return str == null || str.trim().isEmpty();
+        return (str == null) || (str.trim().isEmpty());
     }
 
     /**
-     * Extract all words from `str` param and return a String[] with them
+     * Check if the given string is not null and not empty.
+     * It'j just a wrapper to <code>!StringUtils.isEmpty(str)</code>.
      *
-     * @param str to be parsed
-     * @return String[] to all words
+     * @param str The string to be checked.
+     *
+     * @return true if the string is not null and not empty. False otherwise.
      */
-    public static String[] toArray(String str) {
+    public static boolean isNotEmpty(String str) {
 
-        if (StringUtils.isEmpty(str)) {
-
-            return new String[]{};
-        }
-
-        str = str.trim().replaceAll("\\s+", " ");
-
-        return str.split(" ");
+        return !StringUtils.isEmpty(str);
     }
 }

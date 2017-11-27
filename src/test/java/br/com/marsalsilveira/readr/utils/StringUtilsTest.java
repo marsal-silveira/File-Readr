@@ -4,15 +4,13 @@ package br.com.marsalsilveira.readr.utils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
-
 /**
  * Unit test for StringUtils.
  */
 public class StringUtilsTest {
 
     @Test
-    public void testIsBlank() {
+    public void testIsEmpty() {
 
         Assert.assertEquals(true, StringUtils.isEmpty(null));
         Assert.assertEquals(true, StringUtils.isEmpty(""));
@@ -22,22 +20,12 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void testToArray() {
+    public void testIsNotEmpty() {
 
-        // null or empty
-        String[] nullOrEmpty = {};
-        assertArrayEquals(nullOrEmpty, StringUtils.toArray(null));
-        assertArrayEquals(nullOrEmpty, StringUtils.toArray(""));
-        assertArrayEquals(nullOrEmpty, StringUtils.toArray(" "));
-
-        // count *
-        String[] count = {"count", "*"};
-        assertArrayEquals(count, StringUtils.toArray("count *"));
-        assertArrayEquals(count, StringUtils.toArray(" count  * "));
-
-        // filter [property] [value]
-        String[] filter = {"filter", "uf", "sc"};
-        assertArrayEquals(filter, StringUtils.toArray("filter uf sc"));
-        assertArrayEquals(filter, StringUtils.toArray(" filter  uf  sc "));
+        Assert.assertEquals(false, StringUtils.isNotEmpty(null));
+        Assert.assertEquals(false, StringUtils.isNotEmpty(""));
+        Assert.assertEquals(false, StringUtils.isNotEmpty(" "));
+        Assert.assertEquals(true, StringUtils.isNotEmpty("abc"));
+        Assert.assertEquals(true, StringUtils.isNotEmpty(" abc "));
     }
 }

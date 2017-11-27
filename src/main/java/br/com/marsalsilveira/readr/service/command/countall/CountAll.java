@@ -2,9 +2,10 @@ package br.com.marsalsilveira.readr.service.command.countall;
 
 import br.com.marsalsilveira.readr.service.command.contracts.ReadrCommand;
 import br.com.marsalsilveira.readr.service.file.contracts.ReadrFile;
+import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
-import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -61,8 +62,8 @@ public class CountAll implements ReadrCommand {
                 return false;
             }
 
-            String[] parts = StringUtils.toArray(input);
-            return (parts != null) && (parts .length == 2) && (parts[0].equals("count")) && (parts[1].equals("*"));
+            List<String> parts = CollectionUtils.toList(input);
+            return (parts != null) && (parts.size() == 2) && (parts.get(0).equals("count")) && (parts.get(1).equals("*"));
         }
     }
 }
