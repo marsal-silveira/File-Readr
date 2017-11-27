@@ -23,5 +23,5 @@ public interface ReadrCommand {
     //* Execution
     //******************************************************************************************************************
 
-    String exec(ReadrFile file);
+    CommandResponse exec(String input, ReadrFile file) throws InvalidInputException;
 }

@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
  */
 public final class FileFactory {
 
-    // Avoid create it
+    // Avoid to create it
     private FileFactory() { }
 
     //******************************************************************************************************************

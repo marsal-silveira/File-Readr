@@ -10,7 +10,7 @@ import java.util.List;
  */
 public final class CollectionUtils {
 
-    // Avoid create it
+    // Avoid to create it
     private CollectionUtils() {}
 
     //******************************************************************************************************************

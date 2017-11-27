@@ -10,22 +10,37 @@ import java.util.List;
  */
 public class CommandProvider {
 
-    // Avoid create it
+    // Avoid to create it
     private CommandProvider() { }
 
     //******************************************************************************************************************
     //* Commands
     //******************************************************************************************************************
 
+    /**
+     * Return all available commands.
+     *
+     * @return All available commands.
+     */
     public static List<ReadrCommand> commands() {
 
         List<ReadrCommand> commands = new ArrayList<>();
         commands.add(new CountAll());
-        // put here all others commands
+        commands.add(new CountDistinct());
+        // put here others commands...
 
         return commands;
     }
 
+    /**
+     *
+     *
+     * @param input
+     *
+     * @return
+     *
+     * @throws InvalidInputException
+     */
     public static ReadrCommand command(String input) throws InvalidInputException {
 
         if (StringUtils.isEmpty(input)) {
@@ -36,6 +51,11 @@ public class CommandProvider {
         if (CountAll.Validator.isValid(input)) {
 
             return new CountAll();
+        }
+
+        if (CountDistinct.Validator.isValid(input)) {
+
+            return new CountDistinct();
         }
 
         throw new InvalidInputException();

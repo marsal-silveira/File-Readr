@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 /**
  * Service main class.
  */
-public enum Service {
+public enum Service implements ReadrService {
 
-    // we didn't use UPPERCASED to looks like more `elegant` when call it. e.g: Service.shared.commands().
+    // we didn't use SHARED to looks like more `elegant` when call it. e.g: Service.shared.commands().
     shared;
 
     //******************************************************************************************************************
@@ -54,7 +54,7 @@ public enum Service {
     }
 
     //******************************************************************************************************************
-    //* Services
+    //* Service
     //******************************************************************************************************************
 
     public List<String> commands() {
@@ -64,7 +64,7 @@ public enum Service {
         return CommandProvider.commands().stream().map(command -> command.fullDescription()).collect(Collectors.toList());
     }
 
-    public List<String> properties() {
+    public List<String> fields() {
 
         this.assertInitialized();
 
@@ -76,7 +76,6 @@ public enum Service {
         this.assertInitialized();
 
         ReadrCommand command = CommandProvider.command(input);
-        CommandResponse response = new CommandResponse(command.exec(_file));
-        return response;
+        return command.exec(input, _file);
     }
 }

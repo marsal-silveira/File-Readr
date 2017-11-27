@@ -5,7 +5,7 @@ package br.com.marsalsilveira.readr.utils;
  */
 public final class StringUtils {
 
-    // Avoid create it
+    // Avoid to create it
     private StringUtils() {}
 
     //******************************************************************************************************************
