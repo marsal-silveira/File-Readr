@@ -1,35 +1,57 @@
 package br.com.marsalsilveira.readr.application;
 
-import br.com.marsalsilveira.readr.application.contracts.ReadrTerminal;
+import br.com.marsalsilveira.readr.application.contracts.ReadrConsole;
+import br.com.marsalsilveira.readr.service.Service;
+import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.utils.Strings;
 
 /**
  * Main app controller responsible for manage all app flux and rules.
  */
-public class Readr {
+public final class Readr {
 
     //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    private final ReadrTerminal _terminal;
+    private final ReadrConsole _console;
+    private final Service _service = Service.shared;
 
     //******************************************************************************************************************
     //* Constructor
     //******************************************************************************************************************
 
-    public Readr(ReadrTerminal terminal) {
+    public Readr(ReadrConsole console) {
 
-        _terminal = terminal;
+        _console = console;
     }
 
     //******************************************************************************************************************
-    //* Init
+    //* Run
     //******************************************************************************************************************
 
-    public void init() {
-        this.welcome();
-        this.statements();
+    public void run() {
+
+        try {
+            this.welcome();
+
+            String input;
+            do {
+
+                this.commands();
+                input = _console.input();
+
+                if (!input.equals(Strings.exit)) {
+
+                    CommandResponse response = _service.execCommand(input);
+                    _console.print(response.response());
+                }
+            } while (!input.equals(Strings.exit));
+
+        } finally {
+
+            _console.close();
+        }
     }
 
     //******************************************************************************************************************
@@ -38,17 +60,23 @@ public class Readr {
 
     private void welcome() {
 
-        _terminal.print(Strings.welcome);
-        _terminal.print(Strings.description);
-        _terminal.print();
-        _terminal.print(Strings.version);
+        _console.print(Strings.welcome);
+        _console.print(Strings.description);
+        _console.print();
+        _console.print(Strings.version);
         // TODO: hardcoded... check a way to get this info from maven pom file...
-        _terminal.print("1.0-SNAPSHOT");
+        _console.print("1.0-SNAPSHOT");
     }
 
-    private void statements() {
+    private void commands() {
 
-        _terminal.print();
-        _terminal.print(Strings.commands);
+        _console.print();
+        _console.print("----------------------------------------------------");
+        _console.print(Strings.commands1);
+        _service.commands().forEach(command -> _console.print(command));
+        // `exit` command is hardcoded...
+        _console.print(Strings.exit);
+        _console.print();
+        _console.print(Strings.commands2);
     }
 }

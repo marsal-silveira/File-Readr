@@ -1,31 +1,23 @@
-package br.com.marsalsilveira.readr.service.file.contracts;
-
-import br.com.marsalsilveira.readr.service.file.FileType;
-
-import java.util.List;
+package br.com.marsalsilveira.readr.service.command;
 
 /**
  *
  */
-public interface ReadrFile {
+public class CommandResponse {
 
     //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    FileType type();
-    String name();
-    String path();
-    long count();
-    List<ReadrField> fields();
-    List<ReadrRecord> records();
+    private final String _response;
+    public String response() { return _response; }
 
     //******************************************************************************************************************
-    //* Default Behavior
+    //* Constructor
     //******************************************************************************************************************
 
-    default boolean isEmpty() {
+    public CommandResponse(String response) {
 
-        return this.count() == 0;
+        _response = response;
     }
 }

@@ -2,29 +2,29 @@ package br.com.marsalsilveira.readr.service.file;
 
 import br.com.marsalsilveira.readr.service.file.contracts.ReadrFile;
 import br.com.marsalsilveira.readr.service.file.csv.CsvFile;
+import br.com.marsalsilveira.readr.service.file.exception.InvalidFileException;
 import br.com.marsalsilveira.readr.utils.StringUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  *
  */
 public final class FileFactory {
 
-    // Avoid init this class...
+    // Avoid run this class...
     private FileFactory() { }
 
     //******************************************************************************************************************
     //* Factory
     //******************************************************************************************************************
 
-    public static ReadrFile createFile(String fileName) {
+    public static ReadrFile createFile(String filePath) throws FileNotFoundException, InvalidFileException {
 
-        // TODO: raise an exception if fileName is empty
-        if (StringUtils.isEmpty(fileName)) {
+        FileFactory.validate(filePath);
 
-            return null;
-        }
-
-        String extension = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+        String extension = filePath.substring(filePath.lastIndexOf(".")+1).toLowerCase();
         FileType type = FileType.valueOf(extension);
 
         ReadrFile file;
@@ -32,7 +32,7 @@ public final class FileFactory {
 
             case csv:
 
-                file = new CsvFile(fileName);
+                file = new CsvFile(filePath);
                 break;
 
             default:
@@ -41,5 +41,20 @@ public final class FileFactory {
                 break;
         }
         return file;
+    }
+
+    public static void validate(String filePath) throws FileNotFoundException, InvalidFileException {
+
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+
+            throw new FileNotFoundException(filePath);
+        }
+
+        if (StringUtils.isEmpty(filePath)) {
+
+            throw new InvalidFileException("File: " + filePath + " exists but is invalid.");
+        }
     }
 }

@@ -1,23 +1,41 @@
 package br.com.marsalsilveira.readr.application;
 
-import br.com.marsalsilveira.readr.application.contracts.ReadrTerminal;
+import br.com.marsalsilveira.readr.application.contracts.ReadrConsole;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
 import java.util.Scanner;
 
 /**
- * Abstraction to std console/terminal (cli).
+ * Abstraction to std console (cli).
  */
-public final class Terminal implements ReadrTerminal {
+public final class Console implements ReadrConsole {
+
+    //******************************************************************************************************************
+    //* Properties
+    //******************************************************************************************************************
+
+    private final Scanner _scanner;
 
     //******************************************************************************************************************
     //* Constructor
     //******************************************************************************************************************
 
-    public Terminal() { }
+    public Console() {
+
+        _scanner = new Scanner(System.in);
+    }
 
     //******************************************************************************************************************
-    //* Interface Implementation
+    //* Open / Close
+    //******************************************************************************************************************
+
+    public void close() {
+
+        _scanner.close();
+    }
+
+    //******************************************************************************************************************
+    //* Output / Input
     //******************************************************************************************************************
 
     @Override
@@ -38,18 +56,10 @@ public final class Terminal implements ReadrTerminal {
 
         System.out.print(StringUtils.isEmpty(prefix ) ? "> " : prefix);
 
-        String input;
-        Scanner scanner = new Scanner(System.in);
-        try {
+        // wait until user type any value...
+        String input = _scanner.nextLine();
 
-            // wait until user type any value...
-            input = scanner.nextLine();
-        } finally {
-
-            scanner.close();
-        }
-
-        return input;
+        return input.trim().toLowerCase();
     }
 
     @Override

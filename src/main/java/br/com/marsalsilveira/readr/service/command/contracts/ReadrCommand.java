@@ -1,31 +1,27 @@
-package br.com.marsalsilveira.readr.service.file.contracts;
+package br.com.marsalsilveira.readr.service.command.contracts;
 
-import br.com.marsalsilveira.readr.service.file.FileType;
-
-import java.util.List;
+import br.com.marsalsilveira.readr.service.file.contracts.ReadrFile;
 
 /**
  *
  */
-public interface ReadrFile {
+public interface ReadrCommand {
 
     //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    FileType type();
-    String name();
-    String path();
-    long count();
-    List<ReadrField> fields();
-    List<ReadrRecord> records();
+    String command();
+    String description();
 
-    //******************************************************************************************************************
-    //* Default Behavior
-    //******************************************************************************************************************
+    default String fullDescription() {
 
-    default boolean isEmpty() {
-
-        return this.count() == 0;
+        return this.command() + " - " + this.description();
     }
+
+    //******************************************************************************************************************
+    //* Execution
+    //******************************************************************************************************************
+
+    String exec(ReadrFile file);
 }

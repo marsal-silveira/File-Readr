@@ -9,9 +9,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  *
@@ -31,8 +33,8 @@ public class CsvFile implements ReadrFile {
     private final String _path;
     public String path() { return _path; }
 
-    private final int _count;
-    public int count() { return _count; }
+    private final long _count;
+    public long count() { return _count; }
 
     private final List<ReadrField> _fields;
     public List<ReadrField> fields() { return _fields; }
@@ -51,7 +53,7 @@ public class CsvFile implements ReadrFile {
         _type = FileType.csv;
         _name = name;
         _path = path;
-        _count = this.getFileSize();
+        _count = this.getRecordsCount();
         _fields = new ArrayList<>();
 
         this.loadFields();
@@ -61,10 +63,19 @@ public class CsvFile implements ReadrFile {
     //* Fields and records
     //******************************************************************************************************************
 
-    private int getFileSize() {
+    private long getRecordsCount() {
 
-        // TODO: review this..
-        return 0;
+        long count = 0;
+        try (Stream<String> lines = Files.lines(Paths.get(_path))) {
+
+            count = lines
+                .skip(1)
+                .count();
+        } catch (IOException e) {
+
+            // we ignore this error because all files validation was done before...
+        }
+        return count;
     }
 
     private void loadFields() {

@@ -1,31 +1,26 @@
-package br.com.marsalsilveira.readr.service.file.contracts;
-
-import br.com.marsalsilveira.readr.service.file.FileType;
-
-import java.util.List;
+package br.com.marsalsilveira.readr.application.contracts;
 
 /**
  *
  */
-public interface ReadrFile {
+public interface ReadrConsole {
 
     //******************************************************************************************************************
-    //* Properties
+    //* Open / Close
     //******************************************************************************************************************
 
-    FileType type();
-    String name();
-    String path();
-    long count();
-    List<ReadrField> fields();
-    List<ReadrRecord> records();
+    // default behavior for these methods are `do nothing...`.
+    // Maybe these is unnecessary to some type of console.
+    default void open() {}
+    default void close() {}
 
     //******************************************************************************************************************
-    //* Default Behavior
+    //* Output / Input
     //******************************************************************************************************************
 
-    default boolean isEmpty() {
+    void print(String text);
+    void print();
 
-        return this.count() == 0;
-    }
+    String input(String prefix);
+    String input();
 }
