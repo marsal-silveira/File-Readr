@@ -2,6 +2,7 @@ package br.com.marsalsilveira.readr.service.command;
 
 import br.com.marsalsilveira.readr.service.command.contracts.ReadrCommand;
 import br.com.marsalsilveira.readr.service.command.countall.CountAll;
+import br.com.marsalsilveira.readr.service.command.exception.InvalidInputException;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -12,18 +13,13 @@ import java.util.List;
  */
 public class CommandProvider {
 
-    //******************************************************************************************************************
-    //* Constructor
-    //******************************************************************************************************************
-
-    // Avoid initiate it outside
+    // Avoid create it
     private CommandProvider() { }
 
     //******************************************************************************************************************
     //* Commands
     //******************************************************************************************************************
 
-    // TODO: review name...
     public static List<ReadrCommand> commands() {
 
         List<ReadrCommand> commands = new ArrayList<>();
@@ -33,12 +29,11 @@ public class CommandProvider {
         return commands;
     }
 
-    public static ReadrCommand command(String input) {
+    public static ReadrCommand command(String input) throws InvalidInputException {
 
-        // TODO: review this... return a exception when input is invalid
         if (StringUtils.isEmpty(input)) {
 
-            throw new RuntimeException("empty input...");
+            throw new InvalidInputException("Input is empty");
         }
 
         if (CountAll.Validator.isValid(input)) {
@@ -46,6 +41,6 @@ public class CommandProvider {
             return new CountAll();
         }
 
-        return null;
+        throw new InvalidInputException();
     }
 }

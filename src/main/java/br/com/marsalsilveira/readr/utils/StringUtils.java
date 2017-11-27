@@ -5,8 +5,12 @@ package br.com.marsalsilveira.readr.utils;
  */
 public final class StringUtils {
 
-    // Avoid init this class...
+    // Avoid create it
     private StringUtils() {}
+
+    //******************************************************************************************************************
+    //* Utils
+    //******************************************************************************************************************
 
     /**
      * Check if a String has a valid value (isn't null and it's value is not blank)

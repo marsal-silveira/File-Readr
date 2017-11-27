@@ -3,6 +3,7 @@ package br.com.marsalsilveira.readr.application;
 import br.com.marsalsilveira.readr.application.contracts.ReadrConsole;
 import br.com.marsalsilveira.readr.service.Service;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
+import br.com.marsalsilveira.readr.service.command.exception.InvalidInputException;
 import br.com.marsalsilveira.readr.utils.Strings;
 
 /**
@@ -38,13 +39,21 @@ public final class Readr {
             String input;
             do {
 
+                // list all available commands and wait for user input (command)
                 this.commands();
                 input = _console.input();
 
+                // if user type `exit` just close program...
                 if (!input.equals(Strings.exit)) {
 
-                    CommandResponse response = _service.execCommand(input);
-                    _console.print(response.response());
+                    try {
+
+                        CommandResponse response = _service.execCommand(input);
+                        _console.print(response.response());
+                    } catch (InvalidInputException e) {
+
+                        _console.print("Invalid command.");
+                    }
                 }
             } while (!input.equals(Strings.exit));
 
