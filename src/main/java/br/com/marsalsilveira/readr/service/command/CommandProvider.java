@@ -1,8 +1,5 @@
 package br.com.marsalsilveira.readr.service.command;
 
-import br.com.marsalsilveira.readr.service.command.contracts.ReadrCommand;
-import br.com.marsalsilveira.readr.service.command.countall.CountAll;
-import br.com.marsalsilveira.readr.service.command.exception.InvalidInputException;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -33,7 +30,7 @@ public class CommandProvider {
 
         if (StringUtils.isEmpty(input)) {
 
-            throw new InvalidInputException("Input is empty");
+            throw new InvalidInputException("Input is empty.");
         }
 
         if (CountAll.Validator.isValid(input)) {

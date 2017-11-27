@@ -1,7 +1,8 @@
 package br.com.marsalsilveira.readr.application;
 
+import br.com.marsalsilveira.readr.application.console.Console;
 import br.com.marsalsilveira.readr.service.Service;
-import br.com.marsalsilveira.readr.service.file.exception.InvalidFileException;
+import br.com.marsalsilveira.readr.service.file.InvalidFileException;
 
 import java.io.FileNotFoundException;
 

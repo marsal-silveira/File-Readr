@@ -1,4 +1,4 @@
-package br.com.marsalsilveira.readr.application.contracts;
+package br.com.marsalsilveira.readr.application.console;
 
 /**
  *

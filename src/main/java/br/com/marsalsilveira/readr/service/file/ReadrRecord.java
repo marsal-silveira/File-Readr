@@ -1,4 +1,4 @@
-package br.com.marsalsilveira.readr.service.file.contracts;
+package br.com.marsalsilveira.readr.service.file;
 
 import java.util.List;
 

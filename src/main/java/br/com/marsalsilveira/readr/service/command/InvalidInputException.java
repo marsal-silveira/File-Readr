@@ -1,4 +1,4 @@
-package br.com.marsalsilveira.readr.service.command.exception;
+package br.com.marsalsilveira.readr.service.command;
 
 import java.io.IOException;
 
@@ -28,19 +28,5 @@ public class InvalidInputException extends IOException {
     public InvalidInputException(String s) {
 
         super(s);
-    }
-
-    /**
-     * Constructs a <code>InvalidInputException</code> with a detail message
-     * consisting of the given pathname string followed by the given reason
-     * string.  If the <code>reason</code> argument is <code>null</code> then
-     * it will be omitted.  This private constructor is invoked only by native
-     * I/O methods.
-     */
-    private InvalidInputException(String path, String reason) {
-
-        super (path + ((reason == null)
-                ? ""
-                : " (" + reason + ")"));
     }
 }

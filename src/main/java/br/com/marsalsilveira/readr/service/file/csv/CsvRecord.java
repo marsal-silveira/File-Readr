@@ -1,7 +1,7 @@
 package br.com.marsalsilveira.readr.service.file.csv;
 
-import br.com.marsalsilveira.readr.service.file.contracts.ReadrField;
-import br.com.marsalsilveira.readr.service.file.contracts.ReadrRecord;
+import br.com.marsalsilveira.readr.service.file.ReadrField;
+import br.com.marsalsilveira.readr.service.file.ReadrRecord;
 
 import java.util.ArrayList;
 import java.util.List;

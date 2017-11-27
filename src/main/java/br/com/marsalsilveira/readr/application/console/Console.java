@@ -1,6 +1,5 @@
-package br.com.marsalsilveira.readr.application;
+package br.com.marsalsilveira.readr.application.console;
 
-import br.com.marsalsilveira.readr.application.contracts.ReadrConsole;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
 import java.util.Scanner;

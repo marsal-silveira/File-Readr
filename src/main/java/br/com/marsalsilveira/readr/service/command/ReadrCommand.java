@@ -1,6 +1,6 @@
-package br.com.marsalsilveira.readr.service.command.contracts;
+package br.com.marsalsilveira.readr.service.command;
 
-import br.com.marsalsilveira.readr.service.file.contracts.ReadrFile;
+import br.com.marsalsilveira.readr.service.file.ReadrFile;
 
 /**
  *

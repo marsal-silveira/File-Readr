@@ -1,7 +1,7 @@
-package br.com.marsalsilveira.readr.service.command.countall;
+package br.com.marsalsilveira.readr.service.command;
 
-import br.com.marsalsilveira.readr.service.command.contracts.ReadrCommand;
-import br.com.marsalsilveira.readr.service.file.contracts.ReadrFile;
+import br.com.marsalsilveira.readr.service.command.ReadrCommand;
+import br.com.marsalsilveira.readr.service.file.ReadrFile;
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 

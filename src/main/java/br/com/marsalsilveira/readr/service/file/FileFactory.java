@@ -1,8 +1,6 @@
 package br.com.marsalsilveira.readr.service.file;
 
-import br.com.marsalsilveira.readr.service.file.contracts.ReadrFile;
 import br.com.marsalsilveira.readr.service.file.csv.CsvFile;
-import br.com.marsalsilveira.readr.service.file.exception.InvalidFileException;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
 import java.io.File;

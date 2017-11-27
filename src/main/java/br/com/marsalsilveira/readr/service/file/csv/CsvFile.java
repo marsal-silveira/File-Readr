@@ -1,9 +1,9 @@
 package br.com.marsalsilveira.readr.service.file.csv;
 
 import br.com.marsalsilveira.readr.service.file.FileType;
-import br.com.marsalsilveira.readr.service.file.contracts.ReadrField;
-import br.com.marsalsilveira.readr.service.file.contracts.ReadrFile;
-import br.com.marsalsilveira.readr.service.file.contracts.ReadrRecord;
+import br.com.marsalsilveira.readr.service.file.ReadrField;
+import br.com.marsalsilveira.readr.service.file.ReadrFile;
+import br.com.marsalsilveira.readr.service.file.ReadrRecord;
 
 import java.io.BufferedReader;
 import java.io.File;

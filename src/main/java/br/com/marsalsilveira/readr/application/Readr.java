@@ -1,9 +1,9 @@
 package br.com.marsalsilveira.readr.application;
 
-import br.com.marsalsilveira.readr.application.contracts.ReadrConsole;
+import br.com.marsalsilveira.readr.application.console.ReadrConsole;
 import br.com.marsalsilveira.readr.service.Service;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
-import br.com.marsalsilveira.readr.service.command.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.service.command.InvalidInputException;
 import br.com.marsalsilveira.readr.utils.Strings;
 
 /**

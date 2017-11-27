@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.file.csv;
 
-import br.com.marsalsilveira.readr.service.file.contracts.ReadrField;
+import br.com.marsalsilveira.readr.service.file.ReadrField;
 
 /**
  *
