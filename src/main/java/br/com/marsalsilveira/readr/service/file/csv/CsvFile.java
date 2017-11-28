@@ -1,7 +1,6 @@
 package br.com.marsalsilveira.readr.service.file.csv;
 
 import br.com.marsalsilveira.readr.service.file.FileType;
-import br.com.marsalsilveira.readr.service.file.ReadrField;
 import br.com.marsalsilveira.readr.service.file.ReadrFile;
 import br.com.marsalsilveira.readr.service.file.ReadrRecord;
 
@@ -36,8 +35,8 @@ public class CsvFile implements ReadrFile {
     private final long _count;
     public long count() { return _count; }
 
-    private final List<ReadrField> _fields;
-    public List<ReadrField> fields() { return _fields; }
+    private final List<String> _fields;
+    public List<String> fields() { return _fields; }
 
     public List<ReadrRecord> records() { return this.getRecords(); }
 
@@ -97,7 +96,7 @@ public class CsvFile implements ReadrFile {
             for (String fieldName : fieldNames) {
 
                 index++;
-                _fields.add(new CsvField(index, fieldName));
+                _fields.add(fieldName.trim());
             }
         } catch (IOException ex) {
 
@@ -123,15 +122,14 @@ public class CsvFile implements ReadrFile {
             // skip first line
             reader.lines().skip(1).forEach(line -> {
 
-                CsvRecord record = new CsvRecord(records.size());
+                CsvRecord record = new CsvRecord();
                 int index = -1;
 
                 List<String> values = Arrays.asList(line.split(","));
                 for (String value: values) {
 
                     index++;
-                    CsvField field = ((CsvField) _fields.get(index));
-                    record.addField(index, field.name(), value);
+                    record.addField(_fields.get(index), value.trim());
                 }
 
                 records.add(record);
@@ -141,7 +139,6 @@ public class CsvFile implements ReadrFile {
             return new ArrayList<>();
         }
 
-        System.out.println("records.count -> " + records.size());
         return records;
     }
 }

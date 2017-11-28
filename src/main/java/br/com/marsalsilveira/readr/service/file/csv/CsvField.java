@@ -11,9 +11,6 @@ public class CsvField implements ReadrField {
     //* Properties
     //******************************************************************************************************************
 
-    private final int _index;
-    public int index() { return _index; }
-
     private final String _name;
     public String name() { return _name; }
 
@@ -24,15 +21,9 @@ public class CsvField implements ReadrField {
     //* Constructor
     //******************************************************************************************************************
 
-    public CsvField(int index, String name, String value) {
+    public CsvField(String name, String value) {
 
-        _index = index;
         _name = name;
         _value = value;
-    }
-
-    public CsvField(int index, String name) {
-
-        this(index, name, null);
     }
 }

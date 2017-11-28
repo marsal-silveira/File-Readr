@@ -1,5 +1,8 @@
 package br.com.marsalsilveira.readr.service.file;
 
+import br.com.marsalsilveira.readr.utils.CollectionUtils;
+import br.com.marsalsilveira.readr.utils.StringUtils;
+
 import java.util.List;
 
 /**
@@ -12,18 +15,42 @@ public interface ReadrFile {
     //******************************************************************************************************************
 
     FileType type();
+
     String name();
     String path();
-    long count();
-    List<ReadrField> fields();
+
+    List<String> fields();
     List<ReadrRecord> records();
+    long count();
 
     //******************************************************************************************************************
-    //* Default Behavior
+    //* Utils
     //******************************************************************************************************************
 
     default boolean isEmpty() {
 
         return this.count() == 0;
+    }
+
+    default String fieldByName(String fieldName) {
+
+        if (CollectionUtils.isEmpty(fields()) || StringUtils.isEmpty(fieldName)) {
+
+            return null;
+        }
+
+        return fields()
+                .stream()
+                .filter(field -> field.toLowerCase().equals(fieldName.toLowerCase()))
+                .findFirst()
+                .orElse(null);
+//                .orElseThrow(InvalidInputException::new);
+    }
+
+    default String fieldsToString() {
+
+        return fields()
+                .stream()
+                .reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : ", ") + v2);
     }
 }

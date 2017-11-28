@@ -68,7 +68,7 @@ public enum Service implements ReadrService {
 
         this.assertInitialized();
 
-        return _file.fields().stream().map(property -> property.name()).collect(Collectors.toList());
+        return _file.fields();
     }
 
     public CommandResponse execCommand(String input) throws InvalidInputException {

@@ -46,10 +46,14 @@ public final class Readr {
                 // if user type `exit` just close program...
                 if (!input.equals(Strings.exit)) {
 
+                    // TODO: developer...
+//                    input = "count DiStinct Capital";
+//                    input = " fiLter Uf sCs ";
+
                     try {
 
                         CommandResponse response = _service.execCommand(input);
-                        _console.print(response.response());
+                        response.messages().forEach(message -> _console.print(message));
                     } catch (InvalidInputException e) {
 
                         _console.print("Invalid command.");

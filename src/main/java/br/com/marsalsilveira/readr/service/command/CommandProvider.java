@@ -27,6 +27,7 @@ public class CommandProvider {
         List<ReadrCommand> commands = new ArrayList<>();
         commands.add(new CountAll());
         commands.add(new CountDistinct());
+        commands.add(new FilterPropertyValue());
         // put here others commands...
 
         return commands;
@@ -56,6 +57,11 @@ public class CommandProvider {
         if (CountDistinct.Validator.isValid(input)) {
 
             return new CountDistinct();
+        }
+
+        if (FilterPropertyValue.Validator.isValid(input)) {
+
+            return new FilterPropertyValue();
         }
 
         throw new InvalidInputException();

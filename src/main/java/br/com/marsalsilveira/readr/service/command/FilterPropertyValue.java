@@ -5,11 +5,12 @@ import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
  */
-public class CountAll implements ReadrCommand {
+public class FilterPropertyValue implements ReadrCommand {
 
     //******************************************************************************************************************
     //* Properties
@@ -25,10 +26,10 @@ public class CountAll implements ReadrCommand {
     //* Constructor
     //******************************************************************************************************************
 
-    public CountAll() {
+    public FilterPropertyValue() {
 
-        _command = "count *";
-        _description = "Return total amount of records in file.";
+        _command = "filter [property] [value]";
+        _description = "Given a property, return all rows that matches the search query.";
     }
 
     //******************************************************************************************************************
@@ -37,15 +38,32 @@ public class CountAll implements ReadrCommand {
 
     public CommandResponse exec(String input, ReadrFile file) throws InvalidInputException {
 
-        if (!CountAll.Validator.isValid(input)) {
+        if (!FilterPropertyValue.Validator.isValid(input)) {
 
             throw new InvalidInputException();
         }
 
-        String result = String.format("File has %d record(s).", file.count());
+        List<String> parts = CollectionUtils.toList(input.toLowerCase());
+        String fieldName = parts.get(1);
+        String fieldValue = parts.get(2);
+
+        // check if the property to be find is valid...
+        if (!file.fields().contains(fieldName)) {
+
+            throw new InvalidInputException();
+        }
+
+        List<String> records = file.records()
+                .stream()
+                .filter(record -> record.fieldByName(fieldName).value().toLowerCase().equals(fieldValue))
+                .map(record -> record.valuesToString())
+                .collect(Collectors.toList());
 
         CommandResponse response = new CommandResponse();
-        response.addMessage(result);
+        response.addMessage(String.format("%d results found for the query: filter [%s] = [%s]\n", records.size(), fieldName, fieldValue));
+        response.addMessage(file.fieldsToString());
+        records.forEach(record -> response.addMessage(record));
+
         return response;
     }
 
@@ -71,9 +89,10 @@ public class CountAll implements ReadrCommand {
 
             List<String> parts = CollectionUtils.toList(input.toLowerCase());
             return (parts != null)
-                && (parts.size() == 2)
-                && (parts.get(0).equals("count"))
-                && (parts.get(1).equals("*"));
+                    && (parts.size() == 3)
+                    && (parts.get(0).equals("filter"))
+                    && (StringUtils.isNotEmpty(parts.get(1)))
+                    && (StringUtils.isNotEmpty(parts.get(2)));
         }
     }
 }
