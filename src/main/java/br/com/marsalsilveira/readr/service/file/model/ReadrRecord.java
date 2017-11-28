@@ -1,4 +1,4 @@
-package br.com.marsalsilveira.readr.service.file;
+package br.com.marsalsilveira.readr.service.file.model;
 
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;

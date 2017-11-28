@@ -1,11 +1,14 @@
 package br.com.marsalsilveira.readr.service.file.csv;
 
+import br.com.marsalsilveira.readr.exception.InvalidFileException;
 import br.com.marsalsilveira.readr.service.file.FileType;
-import br.com.marsalsilveira.readr.service.file.ReadrFile;
-import br.com.marsalsilveira.readr.service.file.ReadrRecord;
+import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
+import br.com.marsalsilveira.readr.service.file.model.ReadrRecord;
+import br.com.marsalsilveira.readr.utils.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -38,71 +41,92 @@ public class CsvFile implements ReadrFile {
     private final List<String> _fields;
     public List<String> fields() { return _fields; }
 
-    public List<ReadrRecord> records() { return this.getRecords(); }
+    public List<ReadrRecord> records() {  return this.getRecords(); }
 
     //******************************************************************************************************************
     //* Constructor
     //******************************************************************************************************************
 
-    public CsvFile(String path) {
+    public CsvFile(String path) throws FileNotFoundException, InvalidFileException {
 
-        int nameIndex = path.lastIndexOf("/")+1;
+        // first of all... validate if path is valid and has a valid csv file
+        this.validate(path);
+
+        // TODO: check this... maybe can be moved to another utils class (String, File)
+        int nameIndex = path.lastIndexOf("/") + 1;
         String name = path.substring(nameIndex).toLowerCase();
 
         _type = FileType.csv;
         _name = name;
         _path = path;
+        _fields = this.getFields();
         _count = this.getRecordsCount();
-        _fields = new ArrayList<>();
+    }
 
-        this.loadFields();
+    //******************************************************************************************************************
+    //* Validate
+    //******************************************************************************************************************
+
+    private void validate(String path) throws FileNotFoundException, InvalidFileException {
+
+        // path is empty or invalid...
+        if (StringUtils.isEmpty(path)) {
+
+            throw new FileNotFoundException("Invalid (empty) File Path.");
+        }
+
+        File file = new File(path);
+        if (!file.exists()) {
+
+            throw new FileNotFoundException(path);
+        }
+
+        // path is valid but the file is invalid...
+        if (file.length() == 0) {
+
+            throw new InvalidFileException(path);
+        }
     }
 
     //******************************************************************************************************************
     //* Fields and records
     //******************************************************************************************************************
 
-    private long getRecordsCount() {
+    private long getRecordsCount() throws InvalidFileException {
 
         long count = 0;
         try (Stream<String> lines = Files.lines(Paths.get(_path))) {
 
             count = lines
-                .skip(1)
-                .count();
+                    .skip(1)
+                    .count();
         } catch (IOException e) {
 
-            // we ignore this error because all files validation was done before...
+            throw new InvalidFileException("Error extracting file content (records).");
         }
         return count;
     }
 
-    private void loadFields() {
+    private List<String> getFields() throws InvalidFileException {
 
-        // check if file is empty...
-        File file = new File(_path);
-        if (file.length() == 0) {
+        List<String> result = new ArrayList<>();
 
-            return;
-        }
-
-        // extract first line (fields definition) and all records
-        try (BufferedReader reader = Files.newBufferedReader(file.toPath())) {
+        // extract first line (fields model) and all records
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(_path))) {
 
             String firstLine = reader.readLine();
-            int index = -1;
 
             List<String> fieldNames = Arrays.asList(firstLine.split(","));
             for (String fieldName : fieldNames) {
 
-                index++;
-                _fields.add(fieldName.trim());
+                result.add(fieldName.trim());
             }
         } catch (IOException ex) {
 
-            // we ignore this error because all files validation was done before...
-            return;
+            throw new InvalidFileException("Error extracting file fields (model).");
         }
+
+        return result;
     }
 
     private List<ReadrRecord> getRecords() {
@@ -126,7 +150,7 @@ public class CsvFile implements ReadrFile {
                 int index = -1;
 
                 List<String> values = Arrays.asList(line.split(","));
-                for (String value: values) {
+                for (String value : values) {
 
                     index++;
                     record.addField(_fields.get(index), value.trim());
@@ -136,6 +160,7 @@ public class CsvFile implements ReadrFile {
             });
         } catch (IOException e) {
 
+            // ignore this exception because all validation must be done before...
             return new ArrayList<>();
         }
 

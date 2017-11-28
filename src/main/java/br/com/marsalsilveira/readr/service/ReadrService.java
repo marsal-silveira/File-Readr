@@ -1,22 +1,14 @@
 package br.com.marsalsilveira.readr.service;
 
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
-import br.com.marsalsilveira.readr.service.command.InvalidInputException;
-import br.com.marsalsilveira.readr.service.file.InvalidFileException;
+import br.com.marsalsilveira.readr.exception.InvalidInputException;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
- * Service main class.
+ *
  */
 public interface ReadrService {
-
-    //******************************************************************************************************************
-    //* Setup
-    //******************************************************************************************************************
-
-    void setup(String filePath) throws FileNotFoundException, InvalidFileException;
 
     //******************************************************************************************************************
     //* Service

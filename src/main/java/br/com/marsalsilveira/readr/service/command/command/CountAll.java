@@ -1,16 +1,18 @@
-package br.com.marsalsilveira.readr.service.command;
+package br.com.marsalsilveira.readr.service.command.command;
 
-import br.com.marsalsilveira.readr.service.file.ReadrFile;
+import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.service.command.CommandResponse;
+import br.com.marsalsilveira.readr.service.command.ReadrCommand;
+import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
  */
-public class CountDistinct implements ReadrCommand {
+public class CountAll implements ReadrCommand {
 
     //******************************************************************************************************************
     //* Properties
@@ -26,10 +28,10 @@ public class CountDistinct implements ReadrCommand {
     //* Constructor
     //******************************************************************************************************************
 
-    public CountDistinct() {
+    public CountAll() {
 
-        _command = "count distinct [property]";
-        _description = "Count total values of given property.";
+        _command = "count *";
+        _description = "Return total amount of records in file.";
     }
 
     //******************************************************************************************************************
@@ -38,27 +40,12 @@ public class CountDistinct implements ReadrCommand {
 
     public CommandResponse exec(String input, ReadrFile file) throws InvalidInputException {
 
-        if (!CountDistinct.Validator.isValid(input)) {
+        if (!CountAll.Validator.isValid(input)) {
 
             throw new InvalidInputException();
         }
 
-        // check if the property to be find is valid...
-        List<String> parts = CollectionUtils.toList(input.toLowerCase());
-        String fieldName = file.fieldByName(parts.get(2));
-        if (fieldName == null) {
-
-            throw new InvalidInputException();
-        }
-
-        int count = file.records()
-                .stream()
-                .map(record -> record.fieldByName(fieldName))
-                .map(field -> field.value())
-                .distinct()
-                .collect(Collectors.toList())
-                .size();
-        String result = String.format("The field [%s] has [%d] distinct value(s)", fieldName, count);
+        String result = String.format("File has %d record(s).", file.count());
 
         CommandResponse response = new CommandResponse();
         response.addMessage(result);
@@ -87,10 +74,9 @@ public class CountDistinct implements ReadrCommand {
 
             List<String> parts = CollectionUtils.toList(input.toLowerCase());
             return (parts != null)
-                && (parts.size() == 3)
+                && (parts.size() == 2)
                 && (parts.get(0).equals("count"))
-                && (parts.get(1).equals("distinct"))
-                && (StringUtils.isNotEmpty(parts.get(2)));
+                && (parts.get(1).equals("*"));
         }
     }
 }

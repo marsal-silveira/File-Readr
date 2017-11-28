@@ -1,6 +1,9 @@
-package br.com.marsalsilveira.readr.service.command;
+package br.com.marsalsilveira.readr.service.command.command;
 
-import br.com.marsalsilveira.readr.service.file.ReadrFile;
+import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.service.command.CommandResponse;
+import br.com.marsalsilveira.readr.service.command.ReadrCommand;
+import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
@@ -55,7 +58,7 @@ public class FilterPropertyValue implements ReadrCommand {
 
         List<String> records = file.records()
                 .stream()
-                .filter(record -> record.fieldByName(fieldName).value().toLowerCase().equals(fieldValue))
+                .filter(record -> StringUtils.stripAccents(record.fieldByName(fieldName).value()).toLowerCase().equals(StringUtils.stripAccents(fieldValue)))
                 .map(record -> record.valuesToString())
                 .collect(Collectors.toList());
 

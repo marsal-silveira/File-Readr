@@ -1,5 +1,7 @@
 package br.com.marsalsilveira.readr.utils;
 
+import java.text.Normalizer;
+
 /**
  * String utils class.
  */
@@ -35,5 +37,29 @@ public final class StringUtils {
     public static boolean isNotEmpty(String str) {
 
         return !StringUtils.isEmpty(str);
+    }
+
+    /**
+     * Removes diacritics (~= accents) from a string. The case will not be altered.
+     *
+     * For instance, 'à' will be replaced by 'a'.
+     *
+     * Note that ligatures will be left as is.
+     *
+     * StringUtils.stripAccents(null) = null
+     * StringUtils.stripAccents("") = ""
+     * StringUtils.stripAccents("control") = "control"
+     * StringUtils.stripAccents("éclair") = "eclair"
+     *
+     * @param input - String to be stripped
+     *
+     * @return input text with diacritics removed
+     */
+    public static String stripAccents(String input) {
+
+        input = Normalizer.normalize(input, Normalizer.Form.NFD);
+//        input = input.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        input = input.replaceAll("[^\\p{ASCII}]", "");
+        return input;
     }
 }

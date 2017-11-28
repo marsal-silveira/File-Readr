@@ -1,10 +1,14 @@
 package br.com.marsalsilveira.readr.application;
 
 import br.com.marsalsilveira.readr.application.console.ReadrConsole;
-import br.com.marsalsilveira.readr.service.Service;
+import br.com.marsalsilveira.readr.service.ReadrService;
+import br.com.marsalsilveira.readr.service.ServicePool;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
-import br.com.marsalsilveira.readr.service.command.InvalidInputException;
+import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.utils.StringUtils;
 import br.com.marsalsilveira.readr.utils.Strings;
+
+import java.text.Normalizer;
 
 /**
  * Main app controller responsible for manage all app flux and rules.
@@ -16,7 +20,7 @@ public final class Readr {
     //******************************************************************************************************************
 
     private final ReadrConsole _console;
-    private final Service _service = Service.shared;
+    private final ReadrService _service = ServicePool.shared.getService();
 
     //******************************************************************************************************************
     //* Constructor
@@ -39,16 +43,12 @@ public final class Readr {
             String input;
             do {
 
-                // list all available commands and wait for user input (command)
+                // list all available command and wait for user input (command)
                 this.commands();
                 input = _console.input();
 
                 // if user type `exit` just close program...
                 if (!input.equals(Strings.exit)) {
-
-                    // TODO: developer...
-//                    input = "count DiStinct Capital";
-//                    input = " fiLter Uf sCs ";
 
                     try {
 
@@ -63,6 +63,7 @@ public final class Readr {
 
         } finally {
 
+            _console.print("Finishing Readr...");
             _console.close();
         }
     }
@@ -87,7 +88,7 @@ public final class Readr {
         _console.print("----------------------------------------------------");
         _console.print(Strings.commands1);
         _service.commands().forEach(command -> _console.print(command));
-        // `exit` command is hardcoded...
+        // `exit` command is managed by this controller... so it's hardcoded
         _console.print(Strings.exit);
         _console.print();
         _console.print(Strings.commands2);

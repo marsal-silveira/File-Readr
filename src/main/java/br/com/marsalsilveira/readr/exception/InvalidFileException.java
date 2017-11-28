@@ -1,23 +1,23 @@
-package br.com.marsalsilveira.readr.service.command;
+package br.com.marsalsilveira.readr.exception;
 
 import java.io.IOException;
 
 /**
  *
  */
-public class InvalidInputException extends IOException {
+public class InvalidFileException extends IOException {
 
     /**
-     * Constructs a <code>InvalidInputException</code> with
+     * Constructs a <code>InvalidFileException</code> with
      * <code>null</code> as its error detail message.
      */
-    public InvalidInputException() {
+    public InvalidFileException() {
 
         super();
     }
 
     /**
-     * Constructs a <code>InvalidInputException</code> with the
+     * Constructs a <code>InvalidFileException</code> with the
      * specified detail message. The string <code>s</code> can be
      * retrieved later by the
      * <code>{@link java.lang.Throwable#getMessage}</code>
@@ -25,7 +25,7 @@ public class InvalidInputException extends IOException {
      *
      * @param   s   the detail message.
      */
-    public InvalidInputException(String s) {
+    public InvalidFileException(String s) {
 
         super(s);
     }

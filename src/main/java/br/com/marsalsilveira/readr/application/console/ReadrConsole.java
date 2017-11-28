@@ -10,7 +10,7 @@ public interface ReadrConsole {
     //******************************************************************************************************************
 
     // default behavior for these methods are `do nothing...`.
-    // Maybe these is unnecessary to some type of console.
+    // Default behavior is `nothing` because these can be unnecessary to some kind of console.
     default void open() {}
     default void close() {}
 

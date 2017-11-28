@@ -1,38 +1,44 @@
-package br.com.marsalsilveira.readr.service.file.csv;
+package br.com.marsalsilveira.readr.service;
 
-import br.com.marsalsilveira.readr.service.file.model.ReadrField;
-import br.com.marsalsilveira.readr.service.file.model.ReadrRecord;
+import br.com.marsalsilveira.readr.exception.InvalidFileException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileNotFoundException;
 
 /**
  *
  */
-public class CsvRecord implements ReadrRecord {
+public enum ServicePool {
+
+    // we didn't use SHARED to looks like more `elegant` when call it. e.g: ServicePool.shared.service().
+    shared;
 
     //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    private final List<ReadrField> _fields;
-    public List<ReadrField> fields() { return _fields; }
+    private ReadrService _service = null;
+    public ReadrService  getService() {
+
+        if (_service ==  null) {
+
+            throw new RuntimeException("ServicePool must be initialized before use it. Please call `ServicePool.setup(service)`.");
+        }
+
+        return _service;
+    }
 
     //******************************************************************************************************************
     //* Constructor
     //******************************************************************************************************************
 
-    public CsvRecord() {
-
-        _fields = new ArrayList<>();
-    }
+    ServicePool() {}
 
     //******************************************************************************************************************
-    //* Utils
+    //* Setup | Assert
     //******************************************************************************************************************
 
-    public void addField(String name, String value) {
+    public void setup(ReadrService service) throws FileNotFoundException, InvalidFileException {
 
-        _fields.add(new CsvField(name, value));
+        _service = service;
     }
 }

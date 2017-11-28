@@ -1,9 +1,10 @@
 package br.com.marsalsilveira.readr.service.file;
 
+import br.com.marsalsilveira.readr.exception.InvalidFileException;
 import br.com.marsalsilveira.readr.service.file.csv.CsvFile;
+import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
@@ -22,6 +23,7 @@ public final class FileFactory {
 
         FileFactory.validate(filePath);
 
+        // TODO: check this... maybe can be moved to another utils class (String, File)
         String extension = filePath.substring(filePath.lastIndexOf(".")+1).toLowerCase();
         FileType type = FileType.valueOf(extension);
 
@@ -41,18 +43,11 @@ public final class FileFactory {
         return file;
     }
 
-    public static void validate(String filePath) throws FileNotFoundException, InvalidFileException {
-
-        File file = new File(filePath);
-
-        if (!file.exists()) {
-
-            throw new FileNotFoundException(filePath);
-        }
+    public static void validate(String filePath) throws FileNotFoundException {
 
         if (StringUtils.isEmpty(filePath)) {
 
-            throw new InvalidFileException("File: " + filePath + " exists but is invalid.");
+            throw new FileNotFoundException("Invalid (empty) File Path.");
         }
     }
 }
