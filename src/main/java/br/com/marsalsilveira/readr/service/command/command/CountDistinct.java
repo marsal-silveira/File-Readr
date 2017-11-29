@@ -3,6 +3,7 @@ package br.com.marsalsilveira.readr.service.command.command;
 import br.com.marsalsilveira.readr.exception.InvalidInputException;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
+import br.com.marsalsilveira.readr.service.file.model.ReadrField;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
@@ -16,24 +17,29 @@ import java.util.stream.Collectors;
 public class CountDistinct implements ReadrCommand {
 
     //******************************************************************************************************************
+    //* Strings
+    //******************************************************************************************************************
+
+    // we put these strings here instead `Strings` because Strings should be independent from commands...
+    // so these strings will break this principle.
+    private static String command = "count distinct [property]";
+    private static String description = "Return the number of distinct values of a given [property].";
+    public static String fullDescription = command + " -> " + description;
+    public static String response= "File has `%d` distinct value(s) for field `%s`.";
+
+    //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    private final String _command;
-    public String command() { return _command; }
-
-    private final String _description;
-    public String description() { return _description; }
+    public String command() { return CountDistinct.command; }
+    public String description() { return CountDistinct.description; }
+    public String fullDescription() { return CountDistinct.fullDescription; }
 
     //******************************************************************************************************************
     //* Constructor
     //******************************************************************************************************************
 
-    public CountDistinct() {
-
-        _command = "count distinct [property]";
-        _description = "Count total values of given property.";
-    }
+    public CountDistinct() { }
 
     //******************************************************************************************************************
     //* Execution
@@ -57,11 +63,11 @@ public class CountDistinct implements ReadrCommand {
         int count = file.records()
                 .stream()
                 .map(record -> record.fieldByName(fieldName))
-                .map(field -> field.value())
+                .map(ReadrField::value)
                 .distinct()
                 .collect(Collectors.toList())
                 .size();
-        String result = String.format("The field [%s] has [%d] distinct value(s)", fieldName, count);
+        String result = String.format(CountDistinct.response, count, fieldName);
 
         CommandResponse response = new CommandResponse();
         response.addMessage(result);
@@ -89,8 +95,7 @@ public class CountDistinct implements ReadrCommand {
             }
 
             List<String> parts = CollectionUtils.toList(input.toLowerCase());
-            return (parts != null)
-                && (parts.size() == 3)
+            return (parts.size() == 3)
                 && (parts.get(0).equals("count"))
                 && (parts.get(1).equals("distinct"))
                 && (StringUtils.isNotEmpty(parts.get(2)));

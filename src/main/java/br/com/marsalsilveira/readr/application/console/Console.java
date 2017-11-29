@@ -37,20 +37,29 @@ public final class Console implements ReadrConsole {
     //* Output / Input
     //******************************************************************************************************************
 
-    @Override
     public void print(String str) {
 
         // to avoid print `null` into console
         System.out.println(StringUtils.isEmpty(str) ? "" : str);
     }
 
-    @Override
     public void print() {
 
         this.print(null);
     }
 
+    public void printError(String str) {
+
+        // to avoid print `null` into console
+        System.err.println(StringUtils.isEmpty(str) ? "" : str);
+    }
+
     @Override
+    public void printError() {
+
+        this.printError(null);
+    }
+
     public String input(String prefix) {
 
         System.out.print(StringUtils.isEmpty(prefix ) ? "> " : prefix);
@@ -61,7 +70,6 @@ public final class Console implements ReadrConsole {
         return input.trim().toLowerCase();
     }
 
-    @Override
     public String input() {
 
         return this.input(null);

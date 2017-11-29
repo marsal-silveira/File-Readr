@@ -15,24 +15,29 @@ import java.util.List;
 public class CountAll implements ReadrCommand {
 
     //******************************************************************************************************************
+    //* Strings
+    //******************************************************************************************************************
+
+    // we put these strings here instead `Strings` because Strings should be independent from commands...
+    // so these strings will break this principle.
+    private static String command = "count *";
+    private static String description = "Return the number of records in file without applying any criteria.";
+    public static String fullDescription = command + " -> " + description;
+    public static String response = "File has `%d` record(s).";
+
+    //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    private final String _command;
-    public String command() { return _command; }
-
-    private final String _description;
-    public String description() { return _description; }
+    public String command() { return CountAll.command; }
+    public String description() { return CountAll.description; }
+    public String fullDescription() { return CountAll.fullDescription; }
 
     //******************************************************************************************************************
     //* Constructor
     //******************************************************************************************************************
 
-    public CountAll() {
-
-        _command = "count *";
-        _description = "Return total amount of records in file.";
-    }
+    public CountAll() { }
 
     //******************************************************************************************************************
     //* Execution
@@ -45,7 +50,7 @@ public class CountAll implements ReadrCommand {
             throw new InvalidInputException();
         }
 
-        String result = String.format("File has %d record(s).", file.count());
+        String result = String.format(CountAll.response, file.count());
 
         CommandResponse response = new CommandResponse();
         response.addMessage(result);
@@ -73,8 +78,7 @@ public class CountAll implements ReadrCommand {
             }
 
             List<String> parts = CollectionUtils.toList(input.toLowerCase());
-            return (parts != null)
-                && (parts.size() == 2)
+            return (parts.size() == 2)
                 && (parts.get(0).equals("count"))
                 && (parts.get(1).equals("*"));
         }

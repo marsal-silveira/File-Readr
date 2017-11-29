@@ -2,6 +2,9 @@ package br.com.marsalsilveira.readr.service;
 
 import br.com.marsalsilveira.readr.exception.InvalidFileException;
 import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.service.command.command.CountAll;
+import br.com.marsalsilveira.readr.service.command.command.CountDistinct;
+import br.com.marsalsilveira.readr.service.command.command.FilterPropertyValue;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
 
 /**
  * Unit test for Service
@@ -26,9 +28,7 @@ public class ServiceTest {
         String filePath = "src/test/resources/cidades.csv";
         try {
             _service = new Service(filePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvalidFileException e) {
+        } catch (FileNotFoundException | InvalidFileException e) {
             e.printStackTrace();
         }
     }
@@ -37,9 +37,9 @@ public class ServiceTest {
     public void testCommands() {
 
         List<String> commands = Arrays.asList(
-                "count * - Return total amount of records in file.",
-                "count distinct [property] - Count total values of given property.",
-                "filter [property] [value] - Given a property, return all rows that matches the search query."
+                CountAll.fullDescription,
+                CountDistinct.fullDescription,
+                FilterPropertyValue.fullDescription
         );
         Assert.assertThat(commands , is(_service.commands()));
     }
@@ -66,7 +66,7 @@ public class ServiceTest {
     public void testExecCommandCountAll() {
 
         try {
-            String response = "File has 5565 record(s).";
+            String response = String.format(CountAll.response, 5565);
             Assert.assertEquals(response, _service.execCommand("count *").messages().get(0));
             Assert.assertEquals(response, _service.execCommand(" CoUnt  *").messages().get(0));
         } catch (InvalidInputException e) {
@@ -78,7 +78,7 @@ public class ServiceTest {
     public void testExecCommandCountDistinct() {
 
         try {
-            String response = "The field [uf] has [27] distinct value(s)";
+            String response = String.format(CountDistinct.response, 27, "uf");
             Assert.assertEquals(response, _service.execCommand("count distinct uf").messages().get(0));
             Assert.assertEquals(response, _service.execCommand(" CoUnt  DisTinCt Uf").messages().get(0));
         } catch (InvalidInputException e) {
@@ -90,10 +90,9 @@ public class ServiceTest {
     public void testExecCommandFilterPropertyValue() {
 
         try {
-            String response = "1 results found for the query: filter [%s] = [%s]\n";
-            Assert.assertEquals(String.format(response, "name", "são josé"), _service.execCommand("filter name são josé").messages().get(0));
-            Assert.assertEquals(String.format(response, "name", "sao jose"), _service.execCommand("filter name sao jose").messages().get(0));
-            Assert.assertEquals(String.format(response, "name", "são josé"), _service.execCommand(" fILTer  namE sÃo JosÉ").messages().get(0));
+            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "são josé"), _service.execCommand("filter name são josé").messages().get(0));
+            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "sao jose"), _service.execCommand("filter name sao jose").messages().get(0));
+            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "são josé"), _service.execCommand(" fILTer  namE sÃo JosÉ").messages().get(0));
         } catch (InvalidInputException e) {
             Assert.fail();
         }

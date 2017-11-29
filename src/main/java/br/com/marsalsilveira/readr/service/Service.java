@@ -1,11 +1,11 @@
 package br.com.marsalsilveira.readr.service;
 
+import br.com.marsalsilveira.readr.exception.InvalidFileException;
+import br.com.marsalsilveira.readr.exception.InvalidInputException;
 import br.com.marsalsilveira.readr.service.command.CommandFactory;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
-import br.com.marsalsilveira.readr.exception.InvalidInputException;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
 import br.com.marsalsilveira.readr.service.file.FileFactory;
-import br.com.marsalsilveira.readr.exception.InvalidFileException;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
 
 import java.io.FileNotFoundException;
@@ -39,7 +39,7 @@ public final class Service implements ReadrService {
     public List<String> commands() {
 
         // get all available command and parse it to string (full description)
-        return CommandFactory.commands().stream().map(command -> command.fullDescription()).collect(Collectors.toList());
+        return CommandFactory.commands().stream().map(ReadrCommand::fullDescription).collect(Collectors.toList());
     }
 
     public List<String> fields() {

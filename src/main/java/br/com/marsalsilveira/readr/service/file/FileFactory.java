@@ -43,11 +43,11 @@ public final class FileFactory {
         return file;
     }
 
-    public static void validate(String filePath) throws FileNotFoundException {
+    private static void validate(String filePath) throws FileNotFoundException {
 
         if (StringUtils.isEmpty(filePath)) {
 
-            throw new FileNotFoundException("Invalid (empty) File Path.");
+            throw new FileNotFoundException("Invalid path (empty).");
         }
     }
 }

@@ -4,6 +4,7 @@ import br.com.marsalsilveira.readr.exception.InvalidInputException;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
+import br.com.marsalsilveira.readr.service.file.model.ReadrRecord;
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
@@ -16,24 +17,29 @@ import java.util.stream.Collectors;
 public class FilterPropertyValue implements ReadrCommand {
 
     //******************************************************************************************************************
+    //* Strings
+    //******************************************************************************************************************
+
+    // we put these strings here instead `Strings` because Strings should be independent from commands...
+    // so these strings will break this principle.
+    private static String command = "filter [property] [value]";
+    private static String description = "Return all records when given a [property] its value is equals to [value].";
+    public static String fullDescription = command + " -> " + description;
+    public static String response = "File has %d records with field `%s` equals `%s`.";
+
+    //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    private final String _command;
-    public String command() { return _command; }
-
-    private final String _description;
-    public String description() { return _description; }
+    public String command() { return FilterPropertyValue.command; }
+    public String description() { return FilterPropertyValue.description; }
+    public String fullDescription() { return FilterPropertyValue.fullDescription; }
 
     //******************************************************************************************************************
     //* Constructor
     //******************************************************************************************************************
 
-    public FilterPropertyValue() {
-
-        _command = "filter [property] [value]";
-        _description = "Given a property, return all rows that matches the search query.";
-    }
+    public FilterPropertyValue() { }
 
     //******************************************************************************************************************
     //* Execution
@@ -48,7 +54,7 @@ public class FilterPropertyValue implements ReadrCommand {
 
         List<String> parts = CollectionUtils.toList(input.toLowerCase());
         String fieldName = parts.get(1);
-        // joint all parts of value filter... eg. `são` `josé` are two parts and must be fusion in an unique part `são josé`
+        // join all parts of value filter... eg. `são` `josé` are two parts and must be fusion in an unique part `são josé`
         String fieldValue = parts.stream().skip(2).reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : " ") + v2);
 
         // check if the property to be find is valid...
@@ -60,13 +66,13 @@ public class FilterPropertyValue implements ReadrCommand {
         List<String> records = file.records()
                 .stream()
                 .filter(record -> StringUtils.stripAccents(record.fieldByName(fieldName).value()).toLowerCase().equals(StringUtils.stripAccents(fieldValue)))
-                .map(record -> record.valuesToString())
+                .map(ReadrRecord::valuesToString)
                 .collect(Collectors.toList());
 
         CommandResponse response = new CommandResponse();
-        response.addMessage(String.format("%d results found for the query: filter [%s] = [%s]\n", records.size(), fieldName, fieldValue));
+        response.addMessage(String.format(FilterPropertyValue.response, records.size(), fieldName, fieldValue));
         response.addMessage(file.fieldsToString());
-        records.forEach(record -> response.addMessage(record));
+        records.forEach(response::addMessage);
 
         return response;
     }
@@ -92,8 +98,7 @@ public class FilterPropertyValue implements ReadrCommand {
             }
 
             List<String> parts = CollectionUtils.toList(input.toLowerCase());
-            return (parts != null)
-                    && (parts.size() >= 3)
+            return  (parts.size() >= 3)
                     && (parts.get(0).equals("filter"))
                     && (StringUtils.isNotEmpty(parts.get(1)))
                     && (StringUtils.isNotEmpty(parts.get(2)));

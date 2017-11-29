@@ -1,7 +1,7 @@
 package br.com.marsalsilveira.readr.service;
 
-import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.service.command.CommandResponse;
 
 import java.util.List;
 

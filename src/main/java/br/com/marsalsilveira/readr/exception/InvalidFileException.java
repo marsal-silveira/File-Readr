@@ -8,15 +8,6 @@ import java.io.IOException;
 public class InvalidFileException extends IOException {
 
     /**
-     * Constructs a <code>InvalidFileException</code> with
-     * <code>null</code> as its error detail message.
-     */
-    public InvalidFileException() {
-
-        super();
-    }
-
-    /**
      * Constructs a <code>InvalidFileException</code> with the
      * specified detail message. The string <code>s</code> can be
      * retrieved later by the

@@ -21,6 +21,9 @@ public interface ReadrConsole {
     void print(String text);
     void print();
 
+    void printError(String text);
+    void printError();
+
     String input(String prefix);
     String input();
 }

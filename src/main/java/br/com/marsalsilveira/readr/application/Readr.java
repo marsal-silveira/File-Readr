@@ -10,7 +10,7 @@ import br.com.marsalsilveira.readr.utils.Strings;
 /**
  * Main app controller responsible for manage all app flux and rules.
  */
-public final class Readr {
+final class Readr {
 
     //******************************************************************************************************************
     //* Properties
@@ -23,7 +23,7 @@ public final class Readr {
     //* Constructor
     //******************************************************************************************************************
 
-    public Readr(ReadrConsole console) {
+    Readr(ReadrConsole console) {
 
         _console = console;
     }
@@ -32,7 +32,7 @@ public final class Readr {
     //* Run
     //******************************************************************************************************************
 
-    public void run() {
+    void run() {
 
         try {
             this.welcome();
@@ -40,7 +40,8 @@ public final class Readr {
             String input;
             do {
 
-                // list all available command and wait for user input (command)
+                // list all file fields and available command and wait for user input (command)
+                this.fileFields();
                 this.commands();
                 input = _console.input();
 
@@ -50,44 +51,46 @@ public final class Readr {
                     try {
 
                         CommandResponse response = _service.execCommand(input);
-                        response.messages().forEach(message -> _console.print(message));
+                        response.messages().forEach(_console::print);
                     } catch (InvalidInputException e) {
 
-                        _console.print("Invalid command.");
+                        _console.printError("Invalid command.");
                     }
                 }
             } while (!input.equals(Strings.exit));
 
         } finally {
 
-            _console.print("Finishing Readr...");
+            _console.print(Strings.finishing);
             _console.close();
         }
     }
 
     //******************************************************************************************************************
-    //* Header
+    //* Output Text
     //******************************************************************************************************************
 
     private void welcome() {
 
         _console.print(Strings.welcome);
-        _console.print(Strings.description);
         _console.print();
-        _console.print(Strings.version);
         // TODO: hardcoded... check a way to get this info from maven pom file...
-        _console.print("1.0-SNAPSHOT");
+        _console.print(String.format(Strings.version, "1.0-SNAPSHOT"));
+        _console.print();
+        _console.print(Strings.author);
+    }
+
+    private void fileFields() {
+
+        _console.print();
+        String fileFields = _service.fields().stream().reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : "\n" + Strings.tab) + v2);
+        _console.print(String.format(Strings.fileFields, fileFields));
     }
 
     private void commands() {
 
         _console.print();
-        _console.print("----------------------------------------------------");
-        _console.print(Strings.commands1);
-        _service.commands().forEach(command -> _console.print(command));
-        // `exit` command is managed by this controller... so it's hardcoded
-        _console.print(Strings.exit);
-        _console.print();
-        _console.print(Strings.commands2);
+        String commands = _service.commands().stream().reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : "\n" + Strings.tab) + v2);
+        _console.print(String.format(Strings.commands, commands));
     }
 }
