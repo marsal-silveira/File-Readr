@@ -48,12 +48,13 @@ public class FilterPropertyValue implements ReadrCommand {
 
         List<String> parts = CollectionUtils.toList(input.toLowerCase());
         String fieldName = parts.get(1);
-        String fieldValue = parts.get(2);
+        // joint all parts of value filter... eg. `são` `josé` are two parts and must be fusion in an unique part `são josé`
+        String fieldValue = parts.stream().skip(2).reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : " ") + v2);
 
         // check if the property to be find is valid...
         if (!file.fields().contains(fieldName)) {
 
-            throw new InvalidInputException();
+            throw new InvalidInputException("File doesn't contain `" + fieldName + "` property.");
         }
 
         List<String> records = file.records()
@@ -92,7 +93,7 @@ public class FilterPropertyValue implements ReadrCommand {
 
             List<String> parts = CollectionUtils.toList(input.toLowerCase());
             return (parts != null)
-                    && (parts.size() == 3)
+                    && (parts.size() >= 3)
                     && (parts.get(0).equals("filter"))
                     && (StringUtils.isNotEmpty(parts.get(1)))
                     && (StringUtils.isNotEmpty(parts.get(2)));

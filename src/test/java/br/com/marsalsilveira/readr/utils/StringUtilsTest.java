@@ -28,4 +28,15 @@ public class StringUtilsTest {
         Assert.assertEquals(true, StringUtils.isNotEmpty("abc"));
         Assert.assertEquals(true, StringUtils.isNotEmpty(" abc "));
     }
+
+    @Test
+    public void testStripAccents() {
+
+        Assert.assertEquals(null, StringUtils.stripAccents(null));
+        Assert.assertEquals("", StringUtils.stripAccents(""));
+        Assert.assertEquals("Involves", StringUtils.stripAccents("Involves"));
+        Assert.assertEquals("Sao Jose - SC", StringUtils.stripAccents("São José - SC"));
+        Assert.assertEquals("d'agua", StringUtils.stripAccents("d'água"));
+        Assert.assertEquals("aAaAaAaA eEeEeE iIiIiI oOoOoOoO uUuUuU cC", StringUtils.stripAccents("àÀáÁâÂãÃ èÈéÉêÊ ìÌíÍîÎ òÒóÓôÔõÕ ùÙúÚûÛ çÇ"));
+    }
 }

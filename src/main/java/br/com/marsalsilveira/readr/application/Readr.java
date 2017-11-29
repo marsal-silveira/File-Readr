@@ -1,14 +1,11 @@
 package br.com.marsalsilveira.readr.application;
 
 import br.com.marsalsilveira.readr.application.console.ReadrConsole;
+import br.com.marsalsilveira.readr.exception.InvalidInputException;
 import br.com.marsalsilveira.readr.service.ReadrService;
 import br.com.marsalsilveira.readr.service.ServicePool;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
-import br.com.marsalsilveira.readr.exception.InvalidInputException;
-import br.com.marsalsilveira.readr.utils.StringUtils;
 import br.com.marsalsilveira.readr.utils.Strings;
-
-import java.text.Normalizer;
 
 /**
  * Main app controller responsible for manage all app flux and rules.

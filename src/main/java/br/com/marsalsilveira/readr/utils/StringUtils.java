@@ -57,6 +57,11 @@ public final class StringUtils {
      */
     public static String stripAccents(String input) {
 
+        if (input == null) {
+
+            return null;
+        }
+
         input = Normalizer.normalize(input, Normalizer.Form.NFD);
 //        input = input.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
         input = input.replaceAll("[^\\p{ASCII}]", "");
