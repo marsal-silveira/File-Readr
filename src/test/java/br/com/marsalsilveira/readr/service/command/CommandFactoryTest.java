@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.exception.InvalidCommandException;
 import br.com.marsalsilveira.readr.service.command.command.CountAll;
 import br.com.marsalsilveira.readr.service.command.command.CountDistinct;
 import br.com.marsalsilveira.readr.service.command.command.FilterPropertyValue;
@@ -36,7 +36,7 @@ public class CommandFactoryTest {
         try {
             Assert.assertEquals(CountAll.class, CommandFactory.command("count *").getClass());
             Assert.assertEquals(CountAll.class, CommandFactory.command(" CoUnt  *").getClass());
-        } catch (InvalidInputException e) {
+        } catch (InvalidCommandException e) {
             Assert.fail();
         }
     }
@@ -47,7 +47,7 @@ public class CommandFactoryTest {
         try {
             Assert.assertEquals(CountDistinct.class, CommandFactory.command("count distinct uf").getClass());
             Assert.assertEquals(CountDistinct.class, CommandFactory.command(" CoUnt  DisTinCt Uf").getClass());
-        } catch (InvalidInputException e) {
+        } catch (InvalidCommandException e) {
             Assert.fail();
         }
     }
@@ -61,13 +61,13 @@ public class CommandFactoryTest {
             Assert.assertEquals(FilterPropertyValue.class, CommandFactory.command("filter name sao jose").getClass());
             Assert.assertEquals(FilterPropertyValue.class, CommandFactory.command("filter name SAO JOSE").getClass());
             Assert.assertEquals(FilterPropertyValue.class, CommandFactory.command("  fILTer  namE sÃo    JoSe  ").getClass());
-        } catch (InvalidInputException e) {
+        } catch (InvalidCommandException e) {
             Assert.fail();
         }
     }
 
-    @Test(expected = InvalidInputException.class)
-    public void testExecCommandInvalidInputException() throws InvalidInputException {
+    @Test(expected = InvalidCommandException.class)
+    public void testExecCommandInvalidInputException() throws InvalidCommandException {
 
         CommandFactory.command("[count *]");
     }

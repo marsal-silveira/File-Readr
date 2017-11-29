@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.exception.InvalidCommandException;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
@@ -20,20 +20,26 @@ public class FilterPropertyValue implements ReadrCommand {
     //* Strings
     //******************************************************************************************************************
 
-    // we put these strings here instead `Strings` because Strings should be independent from commands...
-    // so these strings will break this principle.
-    private static String command = "filter [property] [value]";
-    private static String description = "Return all records when given a [property] its value is equals to [value].";
-    public static String fullDescription = command + " -> " + description;
-    public static String response = "File has %d records with field `%s` equals `%s`.";
+    public static final class Strings {
+
+        // we put these strings here instead `Strings` because Strings should be independent from commands...
+        // so these strings will break this principle.
+        private static String command = "filter [property] [value]";
+        private static String description = "Return all records when given a [property] its value is equals to [value].";
+        public static String fullDescription = command + " -> " + description;
+        public static String response = "File has %d records with field `%s` equals `%s`.";
+
+        private static String invalidField = "filter COMMAND -> invalid field `%s`";
+        private static String valueNotFound = "filter COMMAND -> value not found";
+    }
 
     //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    public String command() { return FilterPropertyValue.command; }
-    public String description() { return FilterPropertyValue.description; }
-    public String fullDescription() { return FilterPropertyValue.fullDescription; }
+    public String command() { return FilterPropertyValue.Strings.command; }
+    public String description() { return FilterPropertyValue.Strings.description; }
+    public String fullDescription() { return FilterPropertyValue.Strings.fullDescription; }
 
     //******************************************************************************************************************
     //* Constructor
@@ -45,22 +51,30 @@ public class FilterPropertyValue implements ReadrCommand {
     //* Execution
     //******************************************************************************************************************
 
-    public CommandResponse exec(String input, ReadrFile file) throws InvalidInputException {
+    public CommandResponse exec(String input, ReadrFile file) throws InvalidCommandException {
 
         if (!FilterPropertyValue.Validator.isValid(input)) {
 
-            throw new InvalidInputException();
+            throw new InvalidCommandException();
         }
 
+        // check if field and value are valid...
         List<String> parts = CollectionUtils.toList(input);
-        String fieldName = parts.get(1).toLowerCase();
-        // join all parts of value filter... eg. `são` `josé` are two parts and must be fusion in an unique part `são josé`
-        String fieldValue = parts.stream().skip(2).reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : " ") + v2);
 
-        // check if the property to be find is valid...
+        // check if the field name is valid...
+        String fieldName = parts.get(1).toLowerCase();
         if (!file.fields().contains(fieldName)) {
 
-            throw new InvalidInputException("File doesn't contain `" + fieldName + "` property.");
+            throw new InvalidCommandException(String.format(FilterPropertyValue.Strings.invalidField, parts.get(1)));
+        }
+
+        // join all parts of value filter to another one... eg. `são` `josé` -> `são josé`
+        String fieldValue = StringUtils.toString(parts, 2);
+
+        // check if the field value has been given...
+        if (StringUtils.isEmpty(fieldValue)) {
+
+            throw new InvalidCommandException(FilterPropertyValue.Strings.valueNotFound);
         }
 
         List<String> records = file.records()
@@ -70,7 +84,7 @@ public class FilterPropertyValue implements ReadrCommand {
                 .collect(Collectors.toList());
 
         CommandResponse response = new CommandResponse();
-        response.addMessage(String.format(FilterPropertyValue.response, records.size(), fieldName, fieldValue));
+        response.addMessage(String.format(FilterPropertyValue.Strings.response, records.size(), fieldName, fieldValue));
 
         if (records.size() > 0) {
 
@@ -102,10 +116,9 @@ public class FilterPropertyValue implements ReadrCommand {
             }
 
             List<String> parts = CollectionUtils.toList(input.toLowerCase());
-            return  (parts.size() >= 3)
-                    && (parts.get(0).equals("filter"))
-                    && (StringUtils.isNotEmpty(parts.get(1)))
-                    && (StringUtils.isNotEmpty(parts.get(2)));
+            return (parts.size() >= 2)
+                && (parts.get(0).equals("filter"))
+                && (StringUtils.isNotEmpty(parts.get(1)));
         }
     }
 }

@@ -18,11 +18,9 @@ public interface ReadrConsole {
     //* Output / Input
     //******************************************************************************************************************
 
-    void print(String text);
     void print();
-
+    void print(String text);
     void printError(String text);
-    void printError();
 
     String input(String prefix);
     String input();

@@ -45,7 +45,7 @@ public interface ReadrFile {
                 .filter(field -> field.toLowerCase().equals(fieldName.toLowerCase()))
                 .findFirst()
                 .orElse(null);
-//                .orElseThrow(InvalidInputException::new);
+//                .orElseThrow(InvalidCommandException::new);
     }
 
     default String fieldsToString() {

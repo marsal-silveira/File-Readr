@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.exception.InvalidCommandException;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
 import br.com.marsalsilveira.readr.service.file.model.ReadrField;
@@ -20,20 +20,27 @@ public class CountDistinct implements ReadrCommand {
     //* Strings
     //******************************************************************************************************************
 
-    // we put these strings here instead `Strings` because Strings should be independent from commands...
-    // so these strings will break this principle.
-    private static String command = "count distinct [property]";
-    private static String description = "Return the number of distinct values of a given [property].";
-    public static String fullDescription = command + " -> " + description;
-    public static String response= "File has `%d` distinct value(s) for field `%s`.";
+    public static final class Strings {
+
+        // we put these strings here instead `Strings` because Strings should be independent from commands...
+        // so these strings will break this principle.
+        private static String command = "count distinct [property]";
+        private static String description = "Return the number of distinct values of a given [property].";
+        public static String fullDescription = command + " -> " + description;
+        public static String response = "File has `%d` distinct value(s) for field `%s`.";
+
+        private static String invalidField = "count distinct COMMAND -> invalid field `%s`";
+        private static String tooManyFields = "count distinct COMMAND -> too many fields `%s`";
+        private static String fieldNotFound = "count distinct COMMAND -> field not found";
+    }
 
     //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    public String command() { return CountDistinct.command; }
-    public String description() { return CountDistinct.description; }
-    public String fullDescription() { return CountDistinct.fullDescription; }
+    public String command() { return CountDistinct.Strings.command; }
+    public String description() { return CountDistinct.Strings.description; }
+    public String fullDescription() { return CountDistinct.Strings.fullDescription; }
 
     //******************************************************************************************************************
     //* Constructor
@@ -45,19 +52,35 @@ public class CountDistinct implements ReadrCommand {
     //* Execution
     //******************************************************************************************************************
 
-    public CommandResponse exec(String input, ReadrFile file) throws InvalidInputException {
+    public CommandResponse exec(String input, ReadrFile file) throws InvalidCommandException {
 
         if (!CountDistinct.Validator.isValid(input)) {
 
-            throw new InvalidInputException();
+            throw new InvalidCommandException();
         }
 
-        // check if the property to be find is valid...
         List<String> parts = CollectionUtils.toList(input.toLowerCase());
-        String fieldName = file.fieldByName(parts.get(2));
-        if (fieldName == null) {
 
-            throw new InvalidInputException();
+        // check field...
+
+        if (parts.size() > 3) {
+
+            // join all fields parts into another one. eg. `name` and `uf`
+            String fields = StringUtils.toString(parts, 2);
+            throw new InvalidCommandException(String.format(CountDistinct.Strings.tooManyFields, fields));
+        }
+
+        // check if field has been given...
+        String fieldName = parts.size() == 3 ? parts.get(2).toLowerCase() : null;
+        if (StringUtils.isEmpty(fieldName)) {
+
+            throw new InvalidCommandException(CountDistinct.Strings.fieldNotFound);
+        }
+
+        // check if field is valid...
+        if (!file.fields().contains(fieldName)) {
+
+            throw new InvalidCommandException(String.format(CountDistinct.Strings.invalidField, parts.get(2)));
         }
 
         int count = file.records()
@@ -67,7 +90,7 @@ public class CountDistinct implements ReadrCommand {
                 .distinct()
                 .collect(Collectors.toList())
                 .size();
-        String result = String.format(CountDistinct.response, count, fieldName);
+        String result = String.format(CountDistinct.Strings.response, count, fieldName);
 
         CommandResponse response = new CommandResponse();
         response.addMessage(result);
@@ -95,10 +118,9 @@ public class CountDistinct implements ReadrCommand {
             }
 
             List<String> parts = CollectionUtils.toList(input.toLowerCase());
-            return (parts.size() == 3)
+            return (parts.size() >= 2)
                 && (parts.get(0).equals("count"))
-                && (parts.get(1).equals("distinct"))
-                && (StringUtils.isNotEmpty(parts.get(2)));
+                && (parts.get(1).equals("distinct"));
         }
     }
 }

@@ -17,7 +17,7 @@ public enum ServicePool {
     //******************************************************************************************************************
 
     private ReadrService _service = null;
-    public ReadrService  getService() {
+    public ReadrService getService() {
 
         if (_service ==  null) {
 

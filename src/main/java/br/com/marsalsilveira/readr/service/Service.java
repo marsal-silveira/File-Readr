@@ -1,7 +1,7 @@
 package br.com.marsalsilveira.readr.service;
 
 import br.com.marsalsilveira.readr.exception.InvalidFileException;
-import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.exception.InvalidCommandException;
 import br.com.marsalsilveira.readr.service.command.CommandFactory;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
@@ -47,7 +47,7 @@ public final class Service implements ReadrService {
         return _file.fields();
     }
 
-    public CommandResponse execCommand(String input) throws InvalidInputException {
+    public CommandResponse execCommand(String input) throws InvalidCommandException {
 
         ReadrCommand command = CommandFactory.command(input);
         return command.exec(input, _file);

@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.exception.InvalidCommandException;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
@@ -18,20 +18,23 @@ public class CountAll implements ReadrCommand {
     //* Strings
     //******************************************************************************************************************
 
-    // we put these strings here instead `Strings` because Strings should be independent from commands...
-    // so these strings will break this principle.
-    private static String command = "count *";
-    private static String description = "Return the number of records in file without applying any criteria.";
-    public static String fullDescription = command + " -> " + description;
-    public static String response = "File has `%d` record(s).";
+    public static final class Strings {
+
+        // we put these strings here instead `Strings` because Strings should be independent from commands...
+        // so these strings will break this principle.
+        private static String command = "count *";
+        private static String description = "Return the number of records in file without applying any criteria.";
+        public static String fullDescription = command + " -> " + description;
+        public static String response = "File has `%d` record(s).";
+    }
 
     //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    public String command() { return CountAll.command; }
-    public String description() { return CountAll.description; }
-    public String fullDescription() { return CountAll.fullDescription; }
+    public String command() { return CountAll.Strings.command; }
+    public String description() { return CountAll.Strings.description; }
+    public String fullDescription() { return CountAll.Strings.fullDescription; }
 
     //******************************************************************************************************************
     //* Constructor
@@ -43,14 +46,14 @@ public class CountAll implements ReadrCommand {
     //* Execution
     //******************************************************************************************************************
 
-    public CommandResponse exec(String input, ReadrFile file) throws InvalidInputException {
+    public CommandResponse exec(String input, ReadrFile file) throws InvalidCommandException {
 
         if (!CountAll.Validator.isValid(input)) {
 
-            throw new InvalidInputException();
+            throw new InvalidCommandException();
         }
 
-        String result = String.format(CountAll.response, file.count());
+        String result = String.format(CountAll.Strings.response, file.count());
 
         CommandResponse response = new CommandResponse();
         response.addMessage(result);

@@ -1,6 +1,8 @@
 package br.com.marsalsilveira.readr.utils;
 
 import java.text.Normalizer;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * String utils class.
@@ -66,5 +68,21 @@ public final class StringUtils {
 //        input = input.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
         input = input.replaceAll("[^\\p{ASCII}]", "");
         return input;
+    }
+
+    public static String toString(Collection<String> collection) {
+
+        return StringUtils.toString(collection, 0);
+    }
+
+    public static String toString(Collection<String> collection, int skip) {
+
+        if (CollectionUtils.isEmpty(collection)) {
+
+            return null;
+        }
+
+        Collection<String> c = (skip > 0) ? collection.stream().skip(skip).collect(Collectors.toList()) : collection;
+        return c.stream().reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : " ") + v2);
     }
 }

@@ -1,11 +1,13 @@
 package br.com.marsalsilveira.readr.application;
 
 import br.com.marsalsilveira.readr.application.console.ReadrConsole;
-import br.com.marsalsilveira.readr.exception.InvalidInputException;
+import br.com.marsalsilveira.readr.exception.InvalidCommandException;
 import br.com.marsalsilveira.readr.service.ReadrService;
 import br.com.marsalsilveira.readr.service.ServicePool;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.utils.Strings;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Main app controller responsible for manage all app flux and rules.
@@ -51,10 +53,17 @@ final class Readr {
 
                         CommandResponse response = _service.execCommand(input);
                         response.messages().forEach(_console::print);
-                    } catch (InvalidInputException e) {
+                    } catch (InvalidCommandException e) {
 
-                        _console.printError("Invalid command.");
+                        _console.printError(e.getLocalizedMessage());
                     }
+                }
+
+                // TODO: [Workaround] I don't known why but sometimes `_console` messes up all messages... so we put this sleep to synchronize it
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             } while (!input.equals(Strings.exit));
 

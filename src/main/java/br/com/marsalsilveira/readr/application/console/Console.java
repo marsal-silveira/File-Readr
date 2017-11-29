@@ -37,27 +37,21 @@ public final class Console implements ReadrConsole {
     //* Output / Input
     //******************************************************************************************************************
 
+    public void print() {
+
+        this.print(null);
+    }
+
     public void print(String str) {
 
         // to avoid print `null` into console
         System.out.println(StringUtils.isEmpty(str) ? "" : str);
     }
 
-    public void print() {
-
-        this.print(null);
-    }
-
     public void printError(String str) {
 
         // to avoid print `null` into console
         System.err.println(StringUtils.isEmpty(str) ? "" : str);
-    }
-
-    @Override
-    public void printError() {
-
-        this.printError(null);
     }
 
     public String input(String prefix) {

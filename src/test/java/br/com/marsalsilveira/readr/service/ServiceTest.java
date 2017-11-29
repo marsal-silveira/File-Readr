@@ -1,7 +1,7 @@
 package br.com.marsalsilveira.readr.service;
 
+import br.com.marsalsilveira.readr.exception.InvalidCommandException;
 import br.com.marsalsilveira.readr.exception.InvalidFileException;
-import br.com.marsalsilveira.readr.exception.InvalidInputException;
 import br.com.marsalsilveira.readr.service.command.command.CountAll;
 import br.com.marsalsilveira.readr.service.command.command.CountDistinct;
 import br.com.marsalsilveira.readr.service.command.command.FilterPropertyValue;
@@ -37,9 +37,9 @@ public class ServiceTest {
     public void testCommands() {
 
         List<String> commands = Arrays.asList(
-                CountAll.fullDescription,
-                CountDistinct.fullDescription,
-                FilterPropertyValue.fullDescription
+                CountAll.Strings.fullDescription,
+                CountDistinct.Strings.fullDescription,
+                FilterPropertyValue.Strings.fullDescription
         );
         Assert.assertThat(commands , is(_service.commands()));
     }
@@ -66,10 +66,10 @@ public class ServiceTest {
     public void testExecCommandCountAll() {
 
         try {
-            String response = String.format(CountAll.response, 5565);
+            String response = String.format(CountAll.Strings.response, 5565);
             Assert.assertEquals(response, _service.execCommand("count *").messages().get(0));
             Assert.assertEquals(response, _service.execCommand(" CoUnt  *").messages().get(0));
-        } catch (InvalidInputException e) {
+        } catch (InvalidCommandException e) {
             Assert.fail();
         }
     }
@@ -78,10 +78,10 @@ public class ServiceTest {
     public void testExecCommandCountDistinct() {
 
         try {
-            String response = String.format(CountDistinct.response, 27, "uf");
+            String response = String.format(CountDistinct.Strings.response, 27, "uf");
             Assert.assertEquals(response, _service.execCommand("count distinct uf").messages().get(0));
             Assert.assertEquals(response, _service.execCommand(" CoUnt  DisTinCt Uf").messages().get(0));
-        } catch (InvalidInputException e) {
+        } catch (InvalidCommandException e) {
             Assert.fail();
         }
     }
@@ -90,18 +90,18 @@ public class ServiceTest {
     public void testExecCommandFilterPropertyValue() {
 
         try {
-            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "são josé"), _service.execCommand("filter name são josé").messages().get(0));
-            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "SÃO JOSÉ"), _service.execCommand("filter name SÃO JOSÉ").messages().get(0));
-            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "sao jose"), _service.execCommand("filter name sao jose").messages().get(0));
-            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "SAO JOSE"), _service.execCommand("filter name SAO JOSE").messages().get(0));
-            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "sÃo JoSe"), _service.execCommand("  fILTer  namE sÃo    JoSe  ").messages().get(0));
-        } catch (InvalidInputException e) {
+            Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "são josé"), _service.execCommand("filter name são josé").messages().get(0));
+            Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "SÃO JOSÉ"), _service.execCommand("filter name SÃO JOSÉ").messages().get(0));
+            Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "sao jose"), _service.execCommand("filter name sao jose").messages().get(0));
+            Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "SAO JOSE"), _service.execCommand("filter name SAO JOSE").messages().get(0));
+            Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "sÃo JoSe"), _service.execCommand("  fILTer  namE sÃo    JoSe  ").messages().get(0));
+        } catch (InvalidCommandException e) {
             Assert.fail();
         }
     }
 
-    @Test(expected = InvalidInputException.class)
-    public void testExecCommandInvalidInputException() throws InvalidInputException {
+    @Test(expected = InvalidCommandException.class)
+    public void testExecCommandInvalidInputException() throws InvalidCommandException {
 
         _service.execCommand("[count *]");
     }

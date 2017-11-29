@@ -12,7 +12,7 @@ public final class Strings {
     //* Welcome | Initial
     //******************************************************************************************************************
 
-    private static final String welcome_description = "Readr is a command line tool that allows you to get some data from a file executing specifics queries.";
+    private static final String welcome_description = "Readr is a command line tool that allows you to get some data from a file executing specifics commands.";
 
     private static final String welcome_1 = "  ____                _      _";
     private static final String welcome_2 = " |  _ \\ ___  __ _  __| |_ __| |";
@@ -20,12 +20,6 @@ public final class Strings {
     private static final String welcome_4 = " |  _ <  __/ (_| | (_| | |  |_|";
     private static final String welcome_5 = " |_| \\_\\___|\\__,_|\\__,_|_|  (_)";
     public static final String welcome = welcome_1 + "\n" + welcome_2 + "\n" + welcome_3 + "\n" + welcome_4 + "\n" + welcome_5 + "\n\n" + welcome_description;
-
-//    private static final String welcome_1 = "   ___              __     _";
-//    private static final String welcome_2 = "  / _ \\___ ___ ____/ /___ | |";
-//    private static final String welcome_3 = " / , _/ -_) _ `/ _  / __/ |_|";
-//    private static final String welcome_4 = "/_/|_|\\__/\\_,_/\\_,_/_/    (_)";
-//    public static final String welcome = welcome_1 + "\n" + welcome_2 + "\n" + welcome_3 + "\n" + welcome_4 + "\n\n" + welcome_description;
 
 //     private static final String welcome_1 = "                                                                      dddddddd";
 //     private static final String welcome_2 = "  RRRRRRRRRRRRRRRRR                                                   d::::::d                        !!!";
@@ -83,4 +77,11 @@ public final class Strings {
     public static final String tab = "  ";
 
     public static final String finishing = "Finishing Readr...";
+
+    //******************************************************************************************************************
+    //* Exceptions
+    //******************************************************************************************************************
+
+    public static final String invalidCommandExceptionDefaultMessage = "commad not found.";
+
 }
