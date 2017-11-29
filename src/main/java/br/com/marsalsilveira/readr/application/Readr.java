@@ -40,8 +40,7 @@ final class Readr {
             String input;
             do {
 
-                // list all file fields and available command and wait for user input (command)
-                this.fileFields();
+                // list all available command and wait for user input (command)
                 this.commands();
                 input = _console.input();
 
@@ -72,16 +71,15 @@ final class Readr {
 
     private void welcome() {
 
+        // Header
         _console.print(Strings.welcome);
         _console.print();
         // TODO: hardcoded... check a way to get this info from maven pom file...
         _console.print(String.format(Strings.version, "1.0-SNAPSHOT"));
         _console.print();
         _console.print(Strings.author);
-    }
 
-    private void fileFields() {
-
+        // Available File Fields
         _console.print();
         String fileFields = _service.fields().stream().reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : "\n" + Strings.tab) + v2);
         _console.print(String.format(Strings.fileFields, fileFields));

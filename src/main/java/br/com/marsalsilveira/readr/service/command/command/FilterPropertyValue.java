@@ -52,8 +52,8 @@ public class FilterPropertyValue implements ReadrCommand {
             throw new InvalidInputException();
         }
 
-        List<String> parts = CollectionUtils.toList(input.toLowerCase());
-        String fieldName = parts.get(1);
+        List<String> parts = CollectionUtils.toList(input);
+        String fieldName = parts.get(1).toLowerCase();
         // join all parts of value filter... eg. `são` `josé` are two parts and must be fusion in an unique part `são josé`
         String fieldValue = parts.stream().skip(2).reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : " ") + v2);
 
@@ -65,14 +65,18 @@ public class FilterPropertyValue implements ReadrCommand {
 
         List<String> records = file.records()
                 .stream()
-                .filter(record -> StringUtils.stripAccents(record.fieldByName(fieldName).value()).toLowerCase().equals(StringUtils.stripAccents(fieldValue)))
+                .filter(record -> StringUtils.stripAccents(record.fieldByName(fieldName).value()).toLowerCase().equals(StringUtils.stripAccents(fieldValue).toLowerCase()))
                 .map(ReadrRecord::valuesToString)
                 .collect(Collectors.toList());
 
         CommandResponse response = new CommandResponse();
         response.addMessage(String.format(FilterPropertyValue.response, records.size(), fieldName, fieldValue));
-        response.addMessage(file.fieldsToString());
-        records.forEach(response::addMessage);
+
+        if (records.size() > 0) {
+
+            response.addMessage("\n" + file.fieldsToString());
+            records.forEach(response::addMessage);
+        }
 
         return response;
     }

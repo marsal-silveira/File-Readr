@@ -91,8 +91,10 @@ public class ServiceTest {
 
         try {
             Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "são josé"), _service.execCommand("filter name são josé").messages().get(0));
+            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "SÃO JOSÉ"), _service.execCommand("filter name SÃO JOSÉ").messages().get(0));
             Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "sao jose"), _service.execCommand("filter name sao jose").messages().get(0));
-            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "são josé"), _service.execCommand(" fILTer  namE sÃo JosÉ").messages().get(0));
+            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "SAO JOSE"), _service.execCommand("filter name SAO JOSE").messages().get(0));
+            Assert.assertEquals(String.format(FilterPropertyValue.response, 1, "name", "sÃo JoSe"), _service.execCommand("  fILTer  namE sÃo    JoSe  ").messages().get(0));
         } catch (InvalidInputException e) {
             Assert.fail();
         }
