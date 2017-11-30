@@ -56,11 +56,24 @@ public class ServicePoolTest {
     }
 
     @Test(expected = InvalidFileException.class)
-    public void testSetupInvalidFileException() throws InvalidFileException {
+    public void testSetupEmptyFile() throws InvalidFileException {
 
         try {
 
-            this.setup("src/test/resources/cidades_error.csv");
+            this.setup("src/test/resources/cidades_empty.csv");
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+            Assert.fail();
+        }
+    }
+
+    @Test(expected = InvalidFileException.class)
+    public void testSetupWithoutExtensionFile() throws InvalidFileException {
+
+        try {
+
+            this.setup("src/test/resources/cidades_without_extension");
         } catch (FileNotFoundException e) {
 
             e.printStackTrace();

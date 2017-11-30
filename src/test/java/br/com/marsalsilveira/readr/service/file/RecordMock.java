@@ -1,44 +1,39 @@
-package br.com.marsalsilveira.readr.service.command;
+package br.com.marsalsilveira.readr.service.file;
 
-import br.com.marsalsilveira.readr.utils.Strings;
+import br.com.marsalsilveira.readr.service.file.csv.CsvField;
+import br.com.marsalsilveira.readr.service.file.model.ReadrField;
+import br.com.marsalsilveira.readr.service.file.model.ReadrRecord;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Mock record for test purpose.
  */
-// TODO: maybe this class can get more complexity... returning some extra info for each request...
-public class CommandResponse {
+public class RecordMock implements ReadrRecord {
 
     //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    private final List<String> _messages;
-    public List<String> messages() { return _messages; }
+    private final List<ReadrField> _fields;
+    public List<ReadrField> fields() { return _fields; }
 
     //******************************************************************************************************************
     //* Constructor
     //******************************************************************************************************************
 
-    public CommandResponse() {
+    public RecordMock() {
 
-        _messages = new ArrayList<>();
+        _fields = new ArrayList<>();
     }
 
     //******************************************************************************************************************
     //* Utils
     //******************************************************************************************************************
 
-    public void addMessage(String message) {
+    public void addField(String name, String value) {
 
-        _messages.add(message);
-    }
-
-    @Override
-    public String toString() {
-
-        return messages().stream().reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : Strings.lineBreak) + v2);
+        _fields.add(new CsvField(name, value));
     }
 }

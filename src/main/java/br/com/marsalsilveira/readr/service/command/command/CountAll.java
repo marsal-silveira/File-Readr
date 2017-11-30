@@ -22,8 +22,8 @@ public class CountAll implements ReadrCommand {
 
         // we put these strings here instead `Strings` because Strings should be independent from commands...
         // so these strings will break this principle.
-        private static String command = "count *";
-        private static String description = "Return the number of records in file without applying any criteria.";
+        public static String command = "count *";
+        public static String description = "Return the number of records in file without applying any criteria.";
         public static String fullDescription = command + " -> " + description;
         public static String response = "File has `%d` record(s).";
     }

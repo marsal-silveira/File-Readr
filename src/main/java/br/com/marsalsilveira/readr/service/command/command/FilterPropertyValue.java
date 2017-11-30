@@ -27,7 +27,7 @@ public class FilterPropertyValue implements ReadrCommand {
         private static String command = "filter [property] [value]";
         private static String description = "Return all records when given a [property] its value is equals to [value].";
         public static String fullDescription = command + " -> " + description;
-        public static String response = "File has %d records with field `%s` equals `%s`.";
+        public static String response = "File has %d record(s) with field `%s` equals `%s`.";
 
         private static String invalidField = "filter COMMAND -> invalid field `%s`";
         private static String valueNotFound = "filter COMMAND -> value not found";
@@ -88,7 +88,7 @@ public class FilterPropertyValue implements ReadrCommand {
 
         if (records.size() > 0) {
 
-            response.addMessage("\n" + file.fieldsToString());
+            response.addMessage(br.com.marsalsilveira.readr.utils.Strings.lineBreak + file.fieldsToString());
             records.forEach(response::addMessage);
         }
 

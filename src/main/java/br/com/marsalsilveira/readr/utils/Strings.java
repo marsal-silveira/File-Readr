@@ -19,7 +19,13 @@ public final class Strings {
     private static final String welcome_3 = " | |_) / _ \\/ _` |/ _` | '__| |";
     private static final String welcome_4 = " |  _ <  __/ (_| | (_| | |  |_|";
     private static final String welcome_5 = " |_| \\_\\___|\\__,_|\\__,_|_|  (_)";
-    public static final String welcome = welcome_1 + "\n" + welcome_2 + "\n" + welcome_3 + "\n" + welcome_4 + "\n" + welcome_5 + "\n\n" + welcome_description;
+    public static final String welcome = welcome_1 + Strings.lineBreak +
+                                         welcome_2 + Strings.lineBreak +
+                                         welcome_3 + Strings.lineBreak +
+                                         welcome_4 + Strings.lineBreak +
+                                         welcome_5 + Strings.lineBreak +
+                                         Strings.lineBreak +
+                                         welcome_description;
 
 //     private static final String welcome_1 = "                                                                      dddddddd";
 //     private static final String welcome_2 = "  RRRRRRRRRRRRRRRRR                                                   d::::::d                        !!!";
@@ -43,17 +49,17 @@ public final class Strings {
 //                                         welcome_13 + "\n" + welcome_14 + "\n" + welcome_15 + "\n" + welcome_16 + "\n\n" + welcome_description;
 
     // Version
-    public static final String version = "VERSION\n" + Strings.tab + "%s";
+    public static final String version = "VERSION" + Strings.lineBreak + Strings.tab + "%s";
 
     // Author
-    public static final String author = "AUTHOR\n" + Strings.tab + "Marsal Silveira (https://github.com/marsal-silveira)";
+    public static final String author = "AUTHOR" + Strings.lineBreak + Strings.tab + "Marsal Silveira (https://github.com/marsal-silveira)";
 
     //******************************************************************************************************************
     //* File Fields
     //******************************************************************************************************************
 
-    private static final String fileFields_1 = "FILE FIELDS:\n";
-    private static final String fileFields_2 = Strings.tab + "%s";
+    private static final String fileFields_1 = "FILE FIELDS:";
+    private static final String fileFields_2 =  Strings.lineBreak + Strings.tab + "%s";
 
     public static final String fileFields = fileFields_1 + fileFields_2;
 
@@ -61,10 +67,10 @@ public final class Strings {
     //* Commands
     //******************************************************************************************************************
 
-    private static final String commands_1 = "COMMANDS:\n";
-    private static final String commands_2 = Strings.tab + "%s\n";
-    private static final String commands_3 = Strings.tab + "exit -> close program.\n\n";
-    private static final String commands_4 = "Please type the command and press <ENTER>.";
+    private static final String commands_1 = "COMMANDS:";
+    private static final String commands_2 = Strings.tab + "%s";
+    private static final String commands_3 = Strings.lineBreak + Strings.tab + "exit -> close program.";
+    private static final String commands_4 = Strings.lineBreak + Strings.lineBreak + Strings.lineBreak + "Please type the command and press <ENTER>.";
 
     public static final String commands = commands_1 + commands_2 + commands_3 + commands_4;
     public static final String exit = "exit";
@@ -75,6 +81,7 @@ public final class Strings {
 
     // two spaces
     public static final String tab = "  ";
+    public static final String lineBreak = "\n";
 
     public static final String finishing = "Finishing Readr...";
 
@@ -82,6 +89,8 @@ public final class Strings {
     //* Exceptions
     //******************************************************************************************************************
 
-    public static final String invalidCommandExceptionDefaultMessage = "commad not found.";
+    public static final String invalidCommandExceptionDefaultMessage = "command not found.";
+    public static final String fileNotFoundExceptionEmptyPath = "Empty path.";
+    public static final String invalidFileExceptionExtensionNotFound = "Extension not found at `%s`.";
 
 }

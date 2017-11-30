@@ -14,17 +14,17 @@ public final class App {
 
     public static void main( String[] args ) {
 
-        // hardcoded... this can be replaced by another way to get the file path like a user selection sent by param...
-        String filePath = "src/main/resources/cidades.csv";
-
         // Configure Service Layer...
         try {
+
+            // hardcoded... this can be replaced by another way to get the file path like a user selection sent by param...
+            String filePath = "src/main/resources/cidades.csv";
 
             ServicePool.shared.setup(new Service(filePath));
         } catch (FileNotFoundException | InvalidFileException e) {
 
             // if file not found or is invalid print exception and exit ...
-            System.err.println("Could not find file: " + filePath);
+            System.err.println(e.getLocalizedMessage());
             e.printStackTrace();
             System.exit(1);
         }

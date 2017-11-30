@@ -5,6 +5,7 @@ import br.com.marsalsilveira.readr.service.file.FileType;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
 import br.com.marsalsilveira.readr.service.file.model.ReadrRecord;
 import br.com.marsalsilveira.readr.utils.StringUtils;
+import br.com.marsalsilveira.readr.utils.Strings;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,7 +21,7 @@ import java.util.stream.Stream;
 /**
  *
  */
-public class CsvFile implements ReadrFile {
+public final class CsvFile implements ReadrFile {
 
     //******************************************************************************************************************
     //* Properties
@@ -72,7 +73,7 @@ public class CsvFile implements ReadrFile {
         // path is empty or invalid...
         if (StringUtils.isEmpty(path)) {
 
-            throw new FileNotFoundException("Invalid (empty) File Path.");
+            throw new FileNotFoundException(Strings.fileNotFoundExceptionEmptyPath);
         }
 
         File file = new File(path);

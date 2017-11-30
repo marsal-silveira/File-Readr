@@ -52,7 +52,7 @@ final class Readr {
                     try {
 
                         CommandResponse response = _service.execCommand(input);
-                        response.messages().forEach(_console::print);
+                        _console.print(response.toString());
                     } catch (InvalidCommandException e) {
 
                         _console.printError(e.getLocalizedMessage());
