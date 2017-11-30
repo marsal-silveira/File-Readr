@@ -92,5 +92,4 @@ public final class Strings {
     public static final String invalidCommandExceptionDefaultMessage = "command not found.";
     public static final String fileNotFoundExceptionEmptyPath = "Empty path.";
     public static final String invalidFileExceptionExtensionNotFound = "Extension not found at `%s`.";
-
 }

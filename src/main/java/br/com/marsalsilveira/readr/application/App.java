@@ -17,9 +17,13 @@ public final class App {
         // Configure Service Layer...
         try {
 
-            // hardcoded... this can be replaced by another way to get the file path like a user selection sent by param...
-            String filePath = "src/main/resources/cidades.csv";
+            // TODO: hardcoded... this can be replaced by another way to get the file path like a user selection sent by param...
+            String fileName = "cidades.csv";
+            //Get file from resources folder
+            ClassLoader classLoader = App.class.getClassLoader();
+            String filePath = classLoader.getResource(fileName).getFile();
 
+            // setup ServicePool...
             ServicePool.shared.setup(new Service(filePath));
         } catch (FileNotFoundException | InvalidFileException e) {
 
