@@ -24,8 +24,8 @@ public class CountDistinct implements ReadrCommand {
 
         // we put these strings here instead `Strings` because Strings should be independent from commands...
         // so these strings will break this principle.
-        private static String command = "count distinct [property]";
-        private static String description = "Return the number of distinct values of a given [property].";
+        public static String command = "count distinct [property]";
+        public static String description = "Return the number of distinct values of a given [property].";
         public static String fullDescription = command + " -> " + description;
         public static String response = "File has `%d` distinct value(s) for field `%s`.";
 

@@ -24,8 +24,8 @@ public class FilterPropertyValue implements ReadrCommand {
 
         // we put these strings here instead `Strings` because Strings should be independent from commands...
         // so these strings will break this principle.
-        private static String command = "filter [property] [value]";
-        private static String description = "Return all records when given a [property] its value is equals to [value].";
+        public static String command = "filter [property] [value]";
+        public static String description = "Return all records when given a [property] its value is equals to [value].";
         public static String fullDescription = command + " -> " + description;
         public static String response = "File has %d record(s) with field `%s` equals `%s`.";
 
