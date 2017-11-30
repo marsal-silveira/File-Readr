@@ -26,7 +26,7 @@ public class CommandFactoryTest {
                 CountDistinct.class,
                 FilterPropertyValue.class
         );
-        List<Class<? extends ReadrCommand>> commandsResponse = CommandFactory.commands().stream().map(command -> command.getClass()).collect(Collectors.toList());
+        List<Class<? extends ReadrCommand>> commandsResponse = CommandFactory.commands().stream().map(ReadrCommand::getClass).collect(Collectors.toList());
         Assert.assertThat(commandsExpected , is(commandsResponse));
     }
 
@@ -67,7 +67,7 @@ public class CommandFactoryTest {
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testExecCommandInvalidInputException() throws InvalidCommandException {
+    public void testExecCommandInvalidCommandException() throws InvalidCommandException {
 
         CommandFactory.command("[count *]");
     }

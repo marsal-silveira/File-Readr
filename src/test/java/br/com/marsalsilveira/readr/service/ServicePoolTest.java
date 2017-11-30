@@ -80,4 +80,17 @@ public class ServicePoolTest {
             Assert.fail();
         }
     }
+
+    @Test
+    public void testSetupFileWithoutRecords() {
+
+        try {
+
+            this.setup("src/test/resources/cidades_without_records.csv");
+        } catch (FileNotFoundException | InvalidFileException e) {
+
+            e.printStackTrace();
+            Assert.fail();
+        }
+    }
 }

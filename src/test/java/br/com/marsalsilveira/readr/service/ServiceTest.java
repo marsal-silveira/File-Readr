@@ -101,7 +101,7 @@ public class ServiceTest {
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testExecCommandInvalidInputException() throws InvalidCommandException {
+    public void testExecCommandInvalidCommandException() throws InvalidCommandException {
 
         _service.execCommand("[count *]");
     }
