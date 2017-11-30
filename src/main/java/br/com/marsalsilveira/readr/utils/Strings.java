@@ -12,7 +12,7 @@ public final class Strings {
     //* Welcome | Initial
     //******************************************************************************************************************
 
-    private static final String welcome_description = "Readr is a command line tool that allows you to get some data from a file executing specifics commands.";
+    private static final String welcome_description = "Welcome!!! Readr is a command line tool that allows you to get some data from a file executing specifics commands.";
 
     private static final String welcome_1 = "  ____                _      _";
     private static final String welcome_2 = " |  _ \\ ___  __ _  __| |_ __| |";

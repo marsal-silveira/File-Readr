@@ -8,7 +8,7 @@ import br.com.marsalsilveira.readr.service.ServicePool;
 import java.io.FileNotFoundException;
 
 /**
- *
+ * Main class responsible for handle the startup program process...
  */
 public final class App {
 

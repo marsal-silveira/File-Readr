@@ -20,14 +20,14 @@ public class CollectionUtilsTest {
     public void testIsEmpty() {
 
         Assert.assertEquals(true, CollectionUtils.isEmpty(Arrays.asList()));
-        Assert.assertEquals(false, CollectionUtils.isEmpty(Arrays.asList(Arrays.asList("involves", "challenge"))));
+        Assert.assertEquals(false, CollectionUtils.isEmpty(Arrays.asList(Arrays.asList("file", "readr"))));
     }
 
     @Test
     public void testIsNotEmpty() {
 
         Assert.assertEquals(false, CollectionUtils.isNotEmpty(Arrays.asList()));
-        Assert.assertEquals(true, CollectionUtils.isNotEmpty(Arrays.asList(Arrays.asList("involves", "challenge"))));
+        Assert.assertEquals(true, CollectionUtils.isNotEmpty(Arrays.asList(Arrays.asList("file", "readr"))));
     }
 
     @Test
@@ -40,7 +40,7 @@ public class CollectionUtilsTest {
         Assert.assertThat(nullOrEmpty, is(CollectionUtils.toList(" ")));
 
         // different
-        List<String> different = Arrays.asList("involves", "challenge");
+        List<String> different = Arrays.asList("file", "readr");
         Assert.assertThat(different, not(CollectionUtils.toList("readr")));
 
         // two parts

@@ -41,7 +41,7 @@ public class StringUtilsTest {
 
         Assert.assertEquals(null, StringUtils.stripAccents(null));
         Assert.assertEquals("", StringUtils.stripAccents(""));
-        Assert.assertEquals("Involves", StringUtils.stripAccents("Involves"));
+        Assert.assertEquals("File Readr", StringUtils.stripAccents("File Readr"));
         Assert.assertEquals("Sao Jose - SC", StringUtils.stripAccents("São José - SC"));
         Assert.assertEquals("d'agua", StringUtils.stripAccents("d'água"));
         Assert.assertEquals("aAaAaAaA eEeEeE iIiIiI oOoOoOoO uUuUuU cC", StringUtils.stripAccents("àÀáÁâÂãÃ èÈéÉêÊ ìÌíÍîÎ òÒóÓôÔõÕ ùÙúÚûÛ çÇ"));
@@ -50,10 +50,10 @@ public class StringUtilsTest {
     @Test
     public void testCollectionToString() {
 
-        List<String> parts = Arrays.asList("involves", "challenge");
-        Assert.assertThat("involves challenge", is(StringUtils.toString(parts)));
-        Assert.assertThat("challenge", is(StringUtils.toString(parts, 1)));
-        Assert.assertThat("involves challenge", not(StringUtils.toString(parts, 2)));
+        List<String> parts = Arrays.asList("file", "readr");
+        Assert.assertThat("file readr", is(StringUtils.toString(parts)));
+        Assert.assertThat("file readr", not(StringUtils.toString(parts, 2)));
+        Assert.assertThat("readr", is(StringUtils.toString(parts, 1)));
         Assert.assertThat("", is(StringUtils.toString(parts, 3)));
         Assert.assertThat(null, is(StringUtils.toString(null)));
     }
