@@ -1,2 +1,2 @@
-# Involves-Challenge
-File Reader (Involves evaluation for Java Backend Developer position).
+# File-Readr
+File Reader is a command line tool that allows you to get some data from a file.
