@@ -1,9 +1,9 @@
-package br.com.marsalsilveira.readr.service.file.csv;
+package br.com.marsalsilveira.readr.file.csv;
 
 import br.com.marsalsilveira.readr.exception.FileException;
-import br.com.marsalsilveira.readr.service.file.FileType;
-import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
-import br.com.marsalsilveira.readr.service.file.model.ReadrRecord;
+import br.com.marsalsilveira.readr.file.FileType;
+import br.com.marsalsilveira.readr.file.model.ReadrFile;
+import br.com.marsalsilveira.readr.file.model.ReadrRecord;
 import br.com.marsalsilveira.readr.utils.FileUtils;
 import br.com.marsalsilveira.readr.utils.Strings;
 

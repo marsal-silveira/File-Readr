@@ -3,7 +3,7 @@ package br.com.marsalsilveira.readr.application;
 import br.com.marsalsilveira.readr.application.view.ReadrView;
 import br.com.marsalsilveira.readr.exception.CommandException;
 import br.com.marsalsilveira.readr.service.ReadrService;
-import br.com.marsalsilveira.readr.service.command.CommandResponse;
+import br.com.marsalsilveira.readr.command.CommandResponse;
 import br.com.marsalsilveira.readr.utils.FileUtils;
 import br.com.marsalsilveira.readr.utils.Strings;
 

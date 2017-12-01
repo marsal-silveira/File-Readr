@@ -1,7 +1,7 @@
-package br.com.marsalsilveira.readr.service.command;
+package br.com.marsalsilveira.readr.command;
 
 import br.com.marsalsilveira.readr.exception.CommandException;
-import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
+import br.com.marsalsilveira.readr.file.model.ReadrFile;
 
 /**
  *

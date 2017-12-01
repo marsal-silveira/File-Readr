@@ -1,6 +1,5 @@
-package br.com.marsalsilveira.readr.service.file.model;
+package br.com.marsalsilveira.readr.file.model;
 
-import br.com.marsalsilveira.readr.service.file.FileType;
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
@@ -9,31 +8,24 @@ import java.util.List;
 /**
  *
  */
-public interface ReadrFile {
+public interface ReadrRecord {
 
     //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    FileType type();
-
-    String name();
-    String path();
-
-    List<String> fields();
-    List<ReadrRecord> records();
-    long count();
+    List<ReadrField> fields();
 
     //******************************************************************************************************************
     //* Utils
     //******************************************************************************************************************
 
-    default boolean isEmpty() {
+    default void addField(ReadrField field) {
 
-        return this.count() == 0;
+        fields().add(field);
     }
 
-    default String fieldByName(String fieldName) {
+    default ReadrField fieldByName(String fieldName) {
 
         if (CollectionUtils.isEmpty(fields()) || StringUtils.isEmpty(fieldName)) {
 
@@ -42,16 +34,17 @@ public interface ReadrFile {
 
         return fields()
                 .stream()
-                .filter(field -> field.toLowerCase().equals(fieldName.toLowerCase()))
+                .filter(field -> field.name().toLowerCase().equals(fieldName.toLowerCase()))
                 .findFirst()
                 .orElse(null);
 //                .orElseThrow(CommandException::new);
     }
 
-    default String fieldsToString() {
+    default String valuesToString() {
 
         return fields()
                 .stream()
+                .map(field -> field.value())
                 .reduce("", (v1, v2) -> v1 + (v1.equals("") ? "" : ", ") + v2);
     }
 }

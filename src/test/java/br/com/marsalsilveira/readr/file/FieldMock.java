@@ -1,11 +1,11 @@
-package br.com.marsalsilveira.readr.service.file.csv;
+package br.com.marsalsilveira.readr.file;
 
-import br.com.marsalsilveira.readr.service.file.model.ReadrField;
+import br.com.marsalsilveira.readr.file.model.ReadrField;
 
 /**
- *
+ * Mock field for test purpose.
  */
-public class CsvField implements ReadrField {
+public class FieldMock implements ReadrField {
 
     //******************************************************************************************************************
     //* Properties
@@ -21,7 +21,7 @@ public class CsvField implements ReadrField {
     //* Constructor
     //******************************************************************************************************************
 
-    public CsvField(String name, String value) {
+    public FieldMock(String name, String value) {
 
         _name = name;
         _value = value;

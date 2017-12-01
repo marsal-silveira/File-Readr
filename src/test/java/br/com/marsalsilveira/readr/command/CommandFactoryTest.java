@@ -1,9 +1,9 @@
-package br.com.marsalsilveira.readr.service.command;
+package br.com.marsalsilveira.readr.command;
 
 import br.com.marsalsilveira.readr.exception.CommandException;
-import br.com.marsalsilveira.readr.service.command.command.CountAll;
-import br.com.marsalsilveira.readr.service.command.command.CountDistinct;
-import br.com.marsalsilveira.readr.service.command.command.FilterPropertyValue;
+import br.com.marsalsilveira.readr.command.command.CountAll;
+import br.com.marsalsilveira.readr.command.command.CountDistinct;
+import br.com.marsalsilveira.readr.command.command.FilterPropertyValue;
 import org.junit.Assert;
 import org.junit.Test;
 

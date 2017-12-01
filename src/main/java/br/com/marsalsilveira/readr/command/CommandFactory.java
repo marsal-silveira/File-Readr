@@ -1,11 +1,12 @@
-package br.com.marsalsilveira.readr.service.command;
+package br.com.marsalsilveira.readr.command;
 
 import br.com.marsalsilveira.readr.exception.CommandException;
-import br.com.marsalsilveira.readr.service.command.command.CountAll;
-import br.com.marsalsilveira.readr.service.command.command.CountDistinct;
-import br.com.marsalsilveira.readr.service.command.command.FilterPropertyValue;
+import br.com.marsalsilveira.readr.command.command.CountAll;
+import br.com.marsalsilveira.readr.command.command.CountDistinct;
+import br.com.marsalsilveira.readr.command.command.FilterPropertyValue;
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
+import br.com.marsalsilveira.readr.utils.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,6 @@ public class CommandFactory {
         // get wrong command
         List<String> parts = CollectionUtils.toList(input.toLowerCase());
         String wrongCommand = parts.size() >= 1 ? parts.get(0) : "input";
-        throw new CommandException(wrongCommand + ": Invalid command.");
+        throw new CommandException(String.format(Strings.unknownCommad, wrongCommand));
     }
 }

@@ -1,11 +1,12 @@
-package br.com.marsalsilveira.readr.service.command.command;
+package br.com.marsalsilveira.readr.command.command;
 
 import br.com.marsalsilveira.readr.exception.CommandException;
-import br.com.marsalsilveira.readr.service.command.CommandResponse;
-import br.com.marsalsilveira.readr.service.command.ReadrCommand;
-import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
+import br.com.marsalsilveira.readr.command.CommandResponse;
+import br.com.marsalsilveira.readr.command.ReadrCommand;
+import br.com.marsalsilveira.readr.file.model.ReadrFile;
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
+import br.com.marsalsilveira.readr.utils.Strings;
 
 import java.util.List;
 
@@ -15,26 +16,12 @@ import java.util.List;
 public class CountAll implements ReadrCommand {
 
     //******************************************************************************************************************
-    //* Strings
-    //******************************************************************************************************************
-
-    public static final class Strings {
-
-        // we put these strings here instead `Strings` because Strings should be independent from commands...
-        // so these strings will break this principle.
-        public static String command = "count *";
-        public static String description = "Return the number of records in file without applying any criteria.";
-        public static String fullDescription = command + " -> " + description;
-        public static String response = "File has `%d` record(s).";
-    }
-
-    //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    public String command() { return CountAll.Strings.command; }
-    public String description() { return CountAll.Strings.description; }
-    public String fullDescription() { return CountAll.Strings.fullDescription; }
+    public String command() { return Strings.countAll_command; }
+    public String description() { return Strings.countAll_description; }
+    public String fullDescription() { return Strings.countAll_fullDescription; }
 
     //******************************************************************************************************************
     //* Constructor
@@ -50,10 +37,10 @@ public class CountAll implements ReadrCommand {
 
         if (!CountAll.Validator.isValid(input)) {
 
-            throw new CommandException(br.com.marsalsilveira.readr.utils.Strings.invalidCommand);
+            throw new CommandException(Strings.invalidCommand);
         }
 
-        String result = String.format(CountAll.Strings.response, file.count());
+        String result = String.format(Strings.countAll_response, file.count());
 
         CommandResponse response = new CommandResponse();
         response.addMessage(result);

@@ -1,7 +1,7 @@
-package br.com.marsalsilveira.readr.service.file.csv;
+package br.com.marsalsilveira.readr.file.csv;
 
 import br.com.marsalsilveira.readr.exception.FileException;
-import br.com.marsalsilveira.readr.service.file.FileType;
+import br.com.marsalsilveira.readr.file.FileType;
 import org.junit.Assert;
 import org.junit.Test;
 

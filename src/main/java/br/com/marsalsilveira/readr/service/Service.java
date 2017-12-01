@@ -2,11 +2,11 @@ package br.com.marsalsilveira.readr.service;
 
 import br.com.marsalsilveira.readr.exception.CommandException;
 import br.com.marsalsilveira.readr.exception.FileException;
-import br.com.marsalsilveira.readr.service.command.CommandFactory;
-import br.com.marsalsilveira.readr.service.command.CommandResponse;
-import br.com.marsalsilveira.readr.service.command.ReadrCommand;
-import br.com.marsalsilveira.readr.service.file.FileFactory;
-import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
+import br.com.marsalsilveira.readr.command.CommandFactory;
+import br.com.marsalsilveira.readr.command.CommandResponse;
+import br.com.marsalsilveira.readr.command.ReadrCommand;
+import br.com.marsalsilveira.readr.file.FileFactory;
+import br.com.marsalsilveira.readr.file.model.ReadrFile;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,7 +1,7 @@
-package br.com.marsalsilveira.readr.service.file;
+package br.com.marsalsilveira.readr.file;
 
-import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
-import br.com.marsalsilveira.readr.service.file.model.ReadrRecord;
+import br.com.marsalsilveira.readr.file.model.ReadrFile;
+import br.com.marsalsilveira.readr.file.model.ReadrRecord;
 import br.com.marsalsilveira.readr.utils.Strings;
 
 import java.util.ArrayList;

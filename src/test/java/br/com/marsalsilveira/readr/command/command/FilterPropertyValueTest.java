@@ -1,7 +1,8 @@
-package br.com.marsalsilveira.readr.service.command.command;
+package br.com.marsalsilveira.readr.command.command;
 
 import br.com.marsalsilveira.readr.exception.CommandException;
-import br.com.marsalsilveira.readr.service.file.FileMock;
+import br.com.marsalsilveira.readr.file.FileMock;
+import br.com.marsalsilveira.readr.utils.Strings;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +23,9 @@ public class FilterPropertyValueTest {
     @Test
     public void testProperties() {
 
-        Assert.assertEquals(FilterPropertyValue.Strings.command, _filterPropertyValue.command());
-        Assert.assertEquals(FilterPropertyValue.Strings.description, _filterPropertyValue.description());
-        Assert.assertEquals(FilterPropertyValue.Strings.fullDescription, _filterPropertyValue.fullDescription());
+        Assert.assertEquals(Strings.filterPropertyValue_command, _filterPropertyValue.command());
+        Assert.assertEquals(Strings.filterPropertyValue_description, _filterPropertyValue.description());
+        Assert.assertEquals(Strings.filterPropertyValue_fullDescription, _filterPropertyValue.fullDescription());
     }
 
     @Test
@@ -43,10 +44,10 @@ public class FilterPropertyValueTest {
 
         try {
 
-            Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "Agrolândia"), _filterPropertyValue.exec("filter name Agrolândia", new FileMock()).messages().get(0));
-            Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "agrolândia"), _filterPropertyValue.exec("filter name agrolândia", new FileMock()).messages().get(0));
-            Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "AGROLÂNDIA"), _filterPropertyValue.exec("filter name AGROLÂNDIA", new FileMock()).messages().get(0));
-            Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 0, "name", "são josé"), _filterPropertyValue.exec("filter name são josé", new FileMock()).messages().get(0));
+            Assert.assertEquals(String.format(Strings.filterPropertyValue_response, 1, "name", "Agrolândia"), _filterPropertyValue.exec("filter name Agrolândia", new FileMock()).messages().get(0));
+            Assert.assertEquals(String.format(Strings.filterPropertyValue_response, 1, "name", "agrolândia"), _filterPropertyValue.exec("filter name agrolândia", new FileMock()).messages().get(0));
+            Assert.assertEquals(String.format(Strings.filterPropertyValue_response, 1, "name", "AGROLÂNDIA"), _filterPropertyValue.exec("filter name AGROLÂNDIA", new FileMock()).messages().get(0));
+            Assert.assertEquals(String.format(Strings.filterPropertyValue_response, 0, "name", "são josé"), _filterPropertyValue.exec("filter name são josé", new FileMock()).messages().get(0));
         } catch (CommandException e) {
             e.printStackTrace();
             Assert.fail();

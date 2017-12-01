@@ -54,7 +54,7 @@ public final class Strings {
     private static final String logo = logo_1 + lineBreak + logo_2 + lineBreak + logo_3 + lineBreak + logo_4 + lineBreak + logo_5 + lineBreak + logo_6;
 
     private static final String about_title = "Welcome!!! Readr is a command line tool that allows you to get some data from a file.";
-    private static final String author = "AUTHOR" + lineBreak + tab + "Marsal Silveira (https://github.com/marsal-silveira)";
+    private static final String author = "Author:" + lineBreak + lineBreak + tab + "Marsal Silveira (https://github.com/marsal-silveira)";
 //    private static final String version = "VERSION " + lineBreak + tab + "%s";
 
     public static final String about = logo + lineBreak + about_title + lineBreak + lineBreak + author;
@@ -63,21 +63,21 @@ public final class Strings {
     //* About
     //******************************************************************************************************************
 
-    public static final String inputFilePath = "Before continue I need know what file will be used (path) or press <RETURN> to use default [%s]:";
+    public static final String inputFilePath = "Before we continue, please informs the file (path) or press <RETURN> to use default [%s]:";
 
-    //******************************************************************************************************************
-    //* Available Fields
-    //******************************************************************************************************************
-
-    private static final String fields_1 = "FIELDS";
-    private static final String fields_2 = lineBreak + tab + "%s";
-    public static final String fields = fields_1 + fields_2;
+//    //******************************************************************************************************************
+//    //* Available Fields
+//    //******************************************************************************************************************
+//
+//    private static final String fields_1 = "FIELDS";
+//    private static final String fields_2 = lineBreak + tab + "%s";
+//    public static final String fields = fields_1 + fields_2;
 
     //******************************************************************************************************************
     //* Available Commands
     //******************************************************************************************************************
 
-    private static final String commands_1 = "COMMANDS";
+    private static final String commands_1 = "Commands:" + lineBreak;
     private static final String commands_2 = lineBreak + tab + "%s";
     private static final String commands_3 = lineBreak + tab + separator;
     private static final String commands_4 = lineBreak + tab + "exit -> close Readr.";
@@ -92,24 +92,52 @@ public final class Strings {
 
     public static final String bye = "Bye!";
 
-    public static final String selectDefaultFile = "OK! I'll use default file `%s`. It has these FIELDS..." + lineBreak + tab + "%s";
-    public static final String selectCustomFile = "Alright! I got the file and it seems OK. I found these FIELDS..." + lineBreak + tab + "%s";
+    public static final String selectDefaultFile = "OK! I'll use default file `%s`. It has these Fields:" + lineBreak + lineBreak + tab + "%s";
+    public static final String selectCustomFile = "Alright! I got the file and it seems OK. I found these Fields:" + lineBreak + lineBreak + tab + "%s";
 
-    public static final String fileNotFound = "Opss! I can't find the file at `%s`." + lineBreak + lineBreak +
+    public static final String fileNotFound = "[!] I can't find the file at `%s`." + lineBreak + lineBreak +
                                               " - Check the file name for capitalization or other typing errors." + lineBreak +
                                               " - Check to see if you can access it or was moved, renamed or deleted and try again." + lineBreak + lineBreak;
 
-    public static final String fileEmpty = "Opss! It seems that the file has no content (empty)." + lineBreak + lineBreak +
+    public static final String fileEmpty = "[!] It seems that the file has no content (empty)." + lineBreak + lineBreak +
                                            " - Check it and try again." + lineBreak + lineBreak;
 
-    public static final String fileExtensionNotFound = "Opss! I can't identify the file type at `%s` because it doesn't have extension." + lineBreak + lineBreak +
+    public static final String fileExtensionNotFound = "[!] I can't identify the file type at `%s` because it doesn't have extension." + lineBreak + lineBreak +
                                                        " - Check it and try again." + lineBreak + lineBreak;
 
-    public static final String fileInvalidExtension = "Opss! The given file extension is invalid." + lineBreak +
+    public static final String fileInvalidExtension = "[!] The given file extension is invalid." + lineBreak +
                                                       "Only these extensions are available:" + lineBreak + tab + ".csv" + lineBreak + lineBreak +
                                                       "Please select a file in this format and try again." + lineBreak + lineBreak;
 
-    public static final String emptyCommand = "Opss! No command was typed. Try again!";
+    public static final String emptyCommand = "[!] No command was typed!";
 
-    public static final String invalidCommand = "Opss! An invalid command was typed. Try again!";
+    public static final String invalidCommand = "[!] An invalid command was typed!";
+    public static final String unknownCommad = "[!] Unknown command `%s`!";
+
+    //******************************************************************************************************************
+    //* Commands Messages
+    //******************************************************************************************************************
+
+    // Count All
+    public static final String countAll_command = "count *";
+    public static final String countAll_description = "Return the number of records in file without applying any criteria.";
+    public static final String countAll_fullDescription = countAll_command + " -> " + countAll_description;
+    public static final String countAll_response = "File has `%d` record(s).";
+
+    // Count Distinct
+    public static final String countDistinct_command = "count distinct [field]";
+    public static final String countDistinct_description = "Return the number of distinct values of a given [field].";
+    public static final String countDistinct_fullDescription = countDistinct_command + " -> " + countDistinct_description;
+    public static final String countDistinct_response = "File has `%d` distinct value(s) for field `%s`.";
+    public static final String countDistinct_tooManyParams = "[!] count distinct [field] -> Too many params `%s`.";
+    public static final String countDistinct_fieldParamNotFound = "[!] count distinct [field] -> [field] param not found.";
+    public static final String countDistinct_fieldNotFound = "[!] count distinct [field] -> Field `%s` not found.";
+
+    // Filter Property Value
+    public static final String filterPropertyValue_command = "filter [field] [value]";
+    public static final String filterPropertyValue_description = "Return all records when given a [field] its value is equals to [value].";
+    public static final String filterPropertyValue_fullDescription = filterPropertyValue_command + " -> " + filterPropertyValue_description;
+    public static final String filterPropertyValue_response = "File has %d record(s) with field `%s` equals `%s`.";
+    public static final String filterPropertyValue_fieldNotFound = "[!] filter [field] [value] -> Field `%s` not found.";
+    public static final String filterPropertyValue_valueParamNotFound = "[!] filter [field] [value] -> [value] param not found.";
 }

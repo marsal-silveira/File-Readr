@@ -2,7 +2,7 @@ package br.com.marsalsilveira.readr.service;
 
 import br.com.marsalsilveira.readr.exception.CommandException;
 import br.com.marsalsilveira.readr.exception.FileException;
-import br.com.marsalsilveira.readr.service.command.CommandResponse;
+import br.com.marsalsilveira.readr.command.CommandResponse;
 
 import java.util.List;
 

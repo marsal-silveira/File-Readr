@@ -1,4 +1,4 @@
-package br.com.marsalsilveira.readr.service.command;
+package br.com.marsalsilveira.readr.command;
 
 import br.com.marsalsilveira.readr.utils.Strings;
 

@@ -1,12 +1,13 @@
-package br.com.marsalsilveira.readr.service.command.command;
+package br.com.marsalsilveira.readr.command.command;
 
+import br.com.marsalsilveira.readr.command.CommandResponse;
+import br.com.marsalsilveira.readr.command.ReadrCommand;
 import br.com.marsalsilveira.readr.exception.CommandException;
-import br.com.marsalsilveira.readr.service.command.CommandResponse;
-import br.com.marsalsilveira.readr.service.command.ReadrCommand;
-import br.com.marsalsilveira.readr.service.file.model.ReadrField;
-import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
+import br.com.marsalsilveira.readr.file.model.ReadrField;
+import br.com.marsalsilveira.readr.file.model.ReadrFile;
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
+import br.com.marsalsilveira.readr.utils.Strings;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,30 +18,12 @@ import java.util.stream.Collectors;
 public class CountDistinct implements ReadrCommand {
 
     //******************************************************************************************************************
-    //* Strings
-    //******************************************************************************************************************
-
-    public static final class Strings {
-
-        // we put these strings here instead `Strings` because Strings should be independent from commands...
-        // so these strings will break this principle.
-        public static String command = "count distinct [property]";
-        public static String description = "Return the number of distinct values of a given [property].";
-        public static String fullDescription = command + " -> " + description;
-        public static String response = "File has `%d` distinct value(s) for field `%s`.";
-
-        private static String invalidField = "count distinct COMMAND -> invalid field `%s`";
-        private static String tooManyFields = "count distinct COMMAND -> too many fields `%s`";
-        private static String fieldNotFound = "count distinct COMMAND -> field not found";
-    }
-
-    //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    public String command() { return CountDistinct.Strings.command; }
-    public String description() { return CountDistinct.Strings.description; }
-    public String fullDescription() { return CountDistinct.Strings.fullDescription; }
+    public String command() { return Strings.countDistinct_command; }
+    public String description() { return Strings.countDistinct_description; }
+    public String fullDescription() { return Strings.countDistinct_fullDescription; }
 
     //******************************************************************************************************************
     //* Constructor
@@ -56,7 +39,7 @@ public class CountDistinct implements ReadrCommand {
 
         if (!CountDistinct.Validator.isValid(input)) {
 
-            throw new CommandException(br.com.marsalsilveira.readr.utils.Strings.emptyCommand);
+            throw new CommandException(Strings.emptyCommand);
         }
 
         List<String> parts = CollectionUtils.toList(input.toLowerCase());
@@ -67,20 +50,18 @@ public class CountDistinct implements ReadrCommand {
 
             // join all fields parts into another one. eg. `name` and `uf`
             String fields = StringUtils.toString(parts, 2);
-            throw new CommandException(String.format(CountDistinct.Strings.tooManyFields, fields));
-        }
-
-        // check if field has been given...
-        String fieldName = parts.size() == 3 ? parts.get(2).toLowerCase() : null;
-        if (StringUtils.isEmpty(fieldName)) {
-
-            throw new CommandException(CountDistinct.Strings.fieldNotFound);
+            throw new CommandException(String.format(Strings.countDistinct_tooManyParams, fields));
         }
 
         // check if field is valid...
+        String fieldName = parts.size() == 3 ? parts.get(2).toLowerCase() : null;
+        if (StringUtils.isEmpty(fieldName)) {
+
+            throw new CommandException(Strings.countDistinct_fieldParamNotFound);
+        }
         if (!file.fields().contains(fieldName)) {
 
-            throw new CommandException(String.format(CountDistinct.Strings.invalidField, parts.get(2)));
+            throw new CommandException(String.format(Strings.countDistinct_fieldNotFound, parts.get(2)));
         }
 
         int count = file.records()
@@ -90,7 +71,7 @@ public class CountDistinct implements ReadrCommand {
                 .distinct()
                 .collect(Collectors.toList())
                 .size();
-        String result = String.format(CountDistinct.Strings.response, count, fieldName);
+        String result = String.format(Strings.countDistinct_response, count, fieldName);
 
         CommandResponse response = new CommandResponse();
         response.addMessage(result);

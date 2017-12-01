@@ -1,12 +1,13 @@
-package br.com.marsalsilveira.readr.service.command.command;
+package br.com.marsalsilveira.readr.command.command;
 
+import br.com.marsalsilveira.readr.command.CommandResponse;
+import br.com.marsalsilveira.readr.command.ReadrCommand;
 import br.com.marsalsilveira.readr.exception.CommandException;
-import br.com.marsalsilveira.readr.service.command.CommandResponse;
-import br.com.marsalsilveira.readr.service.command.ReadrCommand;
-import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
-import br.com.marsalsilveira.readr.service.file.model.ReadrRecord;
+import br.com.marsalsilveira.readr.file.model.ReadrFile;
+import br.com.marsalsilveira.readr.file.model.ReadrRecord;
 import br.com.marsalsilveira.readr.utils.CollectionUtils;
 import br.com.marsalsilveira.readr.utils.StringUtils;
+import br.com.marsalsilveira.readr.utils.Strings;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,29 +18,12 @@ import java.util.stream.Collectors;
 public class FilterPropertyValue implements ReadrCommand {
 
     //******************************************************************************************************************
-    //* Strings
-    //******************************************************************************************************************
-
-    public static final class Strings {
-
-        // we put these strings here instead `Strings` because Strings should be independent from commands...
-        // so these strings will break this principle.
-        public static String command = "filter [property] [value]";
-        public static String description = "Return all records when given a [property] its value is equals to [value].";
-        public static String fullDescription = command + " -> " + description;
-        public static String response = "File has %d record(s) with field `%s` equals `%s`.";
-
-        private static String invalidField = "filter COMMAND -> invalid field `%s`";
-        private static String valueNotFound = "filter COMMAND -> value not found";
-    }
-
-    //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    public String command() { return FilterPropertyValue.Strings.command; }
-    public String description() { return FilterPropertyValue.Strings.description; }
-    public String fullDescription() { return FilterPropertyValue.Strings.fullDescription; }
+    public String command() { return Strings.filterPropertyValue_command; }
+    public String description() { return Strings.filterPropertyValue_description; }
+    public String fullDescription() { return Strings.filterPropertyValue_fullDescription; }
 
     //******************************************************************************************************************
     //* Constructor
@@ -55,7 +39,7 @@ public class FilterPropertyValue implements ReadrCommand {
 
         if (!FilterPropertyValue.Validator.isValid(input)) {
 
-            throw new CommandException(br.com.marsalsilveira.readr.utils.Strings.invalidCommand);
+            throw new CommandException(Strings.invalidCommand);
         }
 
         // check if field and value are valid...
@@ -65,7 +49,7 @@ public class FilterPropertyValue implements ReadrCommand {
         String fieldName = parts.get(1).toLowerCase();
         if (!file.fields().contains(fieldName)) {
 
-            throw new CommandException(String.format(FilterPropertyValue.Strings.invalidField, parts.get(1)));
+            throw new CommandException(String.format(Strings.filterPropertyValue_fieldNotFound, parts.get(1)));
         }
 
         // join all parts of value filter to another one... eg. `são` `josé` -> `são josé`
@@ -74,7 +58,7 @@ public class FilterPropertyValue implements ReadrCommand {
         // check if the field value has been given...
         if (StringUtils.isEmpty(fieldValue)) {
 
-            throw new CommandException(FilterPropertyValue.Strings.valueNotFound);
+            throw new CommandException(Strings.filterPropertyValue_valueParamNotFound);
         }
 
         List<String> records = file.records()
@@ -84,11 +68,11 @@ public class FilterPropertyValue implements ReadrCommand {
                 .collect(Collectors.toList());
 
         CommandResponse response = new CommandResponse();
-        response.addMessage(String.format(FilterPropertyValue.Strings.response, records.size(), fieldName, fieldValue));
+        response.addMessage(String.format(Strings.filterPropertyValue_response, records.size(), fieldName, fieldValue));
 
         if (records.size() > 0) {
 
-            response.addMessage(br.com.marsalsilveira.readr.utils.Strings.lineBreak + file.fieldsToString());
+            response.addMessage(Strings.lineBreak + file.fieldsToString());
             records.forEach(response::addMessage);
         }
 

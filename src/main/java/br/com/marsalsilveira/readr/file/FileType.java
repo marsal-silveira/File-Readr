@@ -1,4 +1,4 @@
-package br.com.marsalsilveira.readr.service.file;
+package br.com.marsalsilveira.readr.file;
 
 /**
  *

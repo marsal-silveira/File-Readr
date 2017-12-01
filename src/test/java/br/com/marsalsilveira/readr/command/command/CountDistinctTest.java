@@ -1,7 +1,8 @@
-package br.com.marsalsilveira.readr.service.command.command;
+package br.com.marsalsilveira.readr.command.command;
 
 import br.com.marsalsilveira.readr.exception.CommandException;
-import br.com.marsalsilveira.readr.service.file.FileMock;
+import br.com.marsalsilveira.readr.file.FileMock;
+import br.com.marsalsilveira.readr.utils.Strings;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +23,9 @@ public class CountDistinctTest {
     @Test
     public void testProperties() {
 
-        Assert.assertEquals(CountDistinct.Strings.command, _countDistinct.command());
-        Assert.assertEquals(CountDistinct.Strings.description, _countDistinct.description());
-        Assert.assertEquals(CountDistinct.Strings.fullDescription, _countDistinct.fullDescription());
+        Assert.assertEquals(Strings.countDistinct_command, _countDistinct.command());
+        Assert.assertEquals(Strings.countDistinct_description, _countDistinct.description());
+        Assert.assertEquals(Strings.countDistinct_fullDescription, _countDistinct.fullDescription());
     }
 
     @Test
@@ -44,9 +45,9 @@ public class CountDistinctTest {
 
         try {
 
-            Assert.assertEquals(String.format(CountDistinct.Strings.response, 1, "uf"), _countDistinct.exec("count distinct uf", new FileMock()).toString());
-            Assert.assertEquals(String.format(CountDistinct.Strings.response, 1, "uf"), _countDistinct.exec(" CoUnt  DisTinCt Uf ", new FileMock()).toString());
-            Assert.assertEquals(String.format(CountDistinct.Strings.response, 8, "microregion"), _countDistinct.exec("count distinct microregion", new FileMock()).toString());
+            Assert.assertEquals(String.format(Strings.countDistinct_response, 1, "uf"), _countDistinct.exec("count distinct uf", new FileMock()).toString());
+            Assert.assertEquals(String.format(Strings.countDistinct_response, 1, "uf"), _countDistinct.exec(" CoUnt  DisTinCt Uf ", new FileMock()).toString());
+            Assert.assertEquals(String.format(Strings.countDistinct_response, 8, "microregion"), _countDistinct.exec("count distinct microregion", new FileMock()).toString());
         } catch (CommandException e) {
             e.printStackTrace();
             Assert.fail();
