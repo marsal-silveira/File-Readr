@@ -1,12 +1,10 @@
 package br.com.marsalsilveira.readr.service.file;
 
-import br.com.marsalsilveira.readr.exception.InvalidFileException;
+import br.com.marsalsilveira.readr.exception.FileException;
 import br.com.marsalsilveira.readr.service.file.csv.CsvFile;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
-import br.com.marsalsilveira.readr.utils.StringUtils;
+import br.com.marsalsilveira.readr.utils.FileUtils;
 import br.com.marsalsilveira.readr.utils.Strings;
-
-import java.io.FileNotFoundException;
 
 /**
  *
@@ -20,18 +18,30 @@ public final class FileFactory {
     //* Factory
     //******************************************************************************************************************
 
-    public static ReadrFile createFile(String filePath) throws FileNotFoundException, InvalidFileException {
+    public static ReadrFile createFile(String filePath) throws FileException {
 
-        FileFactory.validate(filePath);
+        // check the file
+        if (!FileUtils.checkFile(filePath)) {
+
+            throw new FileException(String.format(Strings.fileNotFound, filePath));
+        }
 
         // extract file extension...
         int lastIndex = filePath.lastIndexOf(".");
         if (lastIndex == -1) {
 
-            throw new InvalidFileException(String.format(Strings.invalidFileExceptionExtensionNotFound, filePath));
+            throw new FileException(String.format(Strings.fileExtensionNotFound, filePath));
         }
         String extension = filePath.substring(lastIndex+1).toLowerCase();
-        FileType type = FileType.valueOf(extension);
+
+        FileType type;
+        try {
+
+            type = FileType.valueOf(extension);
+        } catch (Exception e) {
+
+            throw new FileException(Strings.fileInvalidExtension);
+        }
 
         ReadrFile file;
         switch (type) {
@@ -43,17 +53,8 @@ public final class FileFactory {
 
             default:
 
-                file = null;
-                break;
+                throw new FileException(Strings.fileInvalidExtension);
         }
         return file;
-    }
-
-    private static void validate(String filePath) throws FileNotFoundException {
-
-        if (StringUtils.isEmpty(filePath)) {
-
-            throw new FileNotFoundException(Strings.fileNotFoundExceptionEmptyPath);
-        }
     }
 }

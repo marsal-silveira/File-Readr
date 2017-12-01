@@ -1,7 +1,7 @@
 package br.com.marsalsilveira.readr.service;
 
-import br.com.marsalsilveira.readr.exception.InvalidCommandException;
-import br.com.marsalsilveira.readr.exception.InvalidFileException;
+import br.com.marsalsilveira.readr.exception.CommandException;
+import br.com.marsalsilveira.readr.exception.FileException;
 import br.com.marsalsilveira.readr.service.command.command.CountAll;
 import br.com.marsalsilveira.readr.service.command.command.CountDistinct;
 import br.com.marsalsilveira.readr.service.command.command.FilterPropertyValue;
@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,10 +25,13 @@ public class ServiceTest {
     public void setup() {
 
         String filePath = "src/test/resources/cidades.csv";
+
+        _service = new Service();
         try {
-            _service = new Service(filePath);
-        } catch (FileNotFoundException | InvalidFileException e) {
+            _service.setup(filePath);
+        } catch (FileException e) {
             e.printStackTrace();
+            Assert.fail();
         }
     }
 
@@ -69,7 +71,7 @@ public class ServiceTest {
             String response = String.format(CountAll.Strings.response, 5565);
             Assert.assertEquals(response, _service.execCommand("count *").messages().get(0));
             Assert.assertEquals(response, _service.execCommand(" CoUnt  *").messages().get(0));
-        } catch (InvalidCommandException e) {
+        } catch (CommandException e) {
             Assert.fail();
         }
     }
@@ -81,7 +83,7 @@ public class ServiceTest {
             String response = String.format(CountDistinct.Strings.response, 27, "uf");
             Assert.assertEquals(response, _service.execCommand("count distinct uf").messages().get(0));
             Assert.assertEquals(response, _service.execCommand(" CoUnt  DisTinCt Uf").messages().get(0));
-        } catch (InvalidCommandException e) {
+        } catch (CommandException e) {
             Assert.fail();
         }
     }
@@ -95,13 +97,13 @@ public class ServiceTest {
             Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "sao jose"), _service.execCommand("filter name sao jose").messages().get(0));
             Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "SAO JOSE"), _service.execCommand("filter name SAO JOSE").messages().get(0));
             Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "sÃo JoSe"), _service.execCommand("  fILTer  namE sÃo    JoSe  ").messages().get(0));
-        } catch (InvalidCommandException e) {
+        } catch (CommandException e) {
             Assert.fail();
         }
     }
 
-    @Test(expected = InvalidCommandException.class)
-    public void testExecCommandInvalidCommandException() throws InvalidCommandException {
+    @Test(expected = CommandException.class)
+    public void testExecCommandInvalidCommandException() throws CommandException {
 
         _service.execCommand("[count *]");
     }

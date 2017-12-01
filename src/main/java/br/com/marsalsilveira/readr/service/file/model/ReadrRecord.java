@@ -37,7 +37,7 @@ public interface ReadrRecord {
                 .filter(field -> field.name().toLowerCase().equals(fieldName.toLowerCase()))
                 .findFirst()
                 .orElse(null);
-//                .orElseThrow(InvalidCommandException::new);
+//                .orElseThrow(CommandException::new);
     }
 
     default String valuesToString() {

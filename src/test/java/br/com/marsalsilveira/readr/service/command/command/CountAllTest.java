@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidCommandException;
+import br.com.marsalsilveira.readr.exception.CommandException;
 import br.com.marsalsilveira.readr.service.file.FileMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,14 +43,14 @@ public class CountAllTest {
             String expected = String.format(CountAll.Strings.response, 10);
             Assert.assertEquals(expected, _countAll.exec("count *", new FileMock()).toString());
             Assert.assertEquals(expected, _countAll.exec(" cOuNt   * ", new FileMock()).toString());
-        } catch (InvalidCommandException e) {
+        } catch (CommandException e) {
             e.printStackTrace();
             Assert.fail();
         }
     }
 
-    @Test(expected = InvalidCommandException.class)
-    public void testExecFail() throws InvalidCommandException {
+    @Test(expected = CommandException.class)
+    public void testExecFail() throws CommandException {
 
         _countAll.exec("[count *]", new FileMock());
     }

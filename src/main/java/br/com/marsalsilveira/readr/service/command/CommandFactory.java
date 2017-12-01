@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidCommandException;
+import br.com.marsalsilveira.readr.exception.CommandException;
 import br.com.marsalsilveira.readr.service.command.command.CountAll;
 import br.com.marsalsilveira.readr.service.command.command.CountDistinct;
 import br.com.marsalsilveira.readr.service.command.command.FilterPropertyValue;
@@ -33,11 +33,11 @@ public class CommandFactory {
         return commands;
     }
 
-    public static ReadrCommand command(String input) throws InvalidCommandException {
+    public static ReadrCommand command(String input) throws CommandException {
 
         if (StringUtils.isEmpty(input)) {
 
-            throw new InvalidCommandException("Command cannot be empty.");
+            throw new CommandException("Command cannot be empty.");
         }
 
         if (CountAll.Validator.isValid(input)) {
@@ -58,6 +58,6 @@ public class CommandFactory {
         // get wrong command
         List<String> parts = CollectionUtils.toList(input.toLowerCase());
         String wrongCommand = parts.size() >= 1 ? parts.get(0) : "input";
-        throw new InvalidCommandException(wrongCommand + ": Invalid command.");
+        throw new CommandException(wrongCommand + ": Invalid command.");
     }
 }

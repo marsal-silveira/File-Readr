@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidCommandException;
+import br.com.marsalsilveira.readr.exception.CommandException;
 import br.com.marsalsilveira.readr.service.file.FileMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -47,14 +47,14 @@ public class FilterPropertyValueTest {
             Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "agrolândia"), _filterPropertyValue.exec("filter name agrolândia", new FileMock()).messages().get(0));
             Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 1, "name", "AGROLÂNDIA"), _filterPropertyValue.exec("filter name AGROLÂNDIA", new FileMock()).messages().get(0));
             Assert.assertEquals(String.format(FilterPropertyValue.Strings.response, 0, "name", "são josé"), _filterPropertyValue.exec("filter name são josé", new FileMock()).messages().get(0));
-        } catch (InvalidCommandException e) {
+        } catch (CommandException e) {
             e.printStackTrace();
             Assert.fail();
         }
     }
 
-    @Test(expected = InvalidCommandException.class)
-    public void testExecFail() throws InvalidCommandException {
+    @Test(expected = CommandException.class)
+    public void testExecFail() throws CommandException {
 
         _filterPropertyValue.exec("filter name", new FileMock());
     }

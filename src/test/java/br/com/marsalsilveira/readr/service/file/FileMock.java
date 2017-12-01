@@ -2,6 +2,7 @@ package br.com.marsalsilveira.readr.service.file;
 
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
 import br.com.marsalsilveira.readr.service.file.model.ReadrRecord;
+import br.com.marsalsilveira.readr.utils.Strings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,7 +79,7 @@ public final class FileMock implements ReadrFile {
             RecordMock record = new RecordMock();
             int index = -1;
 
-            List<String> values = Arrays.asList(line.split(","));
+            List<String> values = Arrays.asList(line.split(Strings.comma));
             for (String value : values) {
 
                 index++;

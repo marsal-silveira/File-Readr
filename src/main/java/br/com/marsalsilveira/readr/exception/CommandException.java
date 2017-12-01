@@ -5,10 +5,10 @@ import java.io.IOException;
 /**
  *
  */
-public class InvalidFileException extends IOException {
+public class CommandException extends IOException {
 
     /**
-     * Constructs a <code>InvalidFileException</code> with the
+     * Constructs a <code>CommandException</code> with the
      * specified detail message. The string <code>s</code> can be
      * retrieved later by the
      * <code>{@link java.lang.Throwable#getMessage}</code>
@@ -16,7 +16,7 @@ public class InvalidFileException extends IOException {
      *
      * @param   s   the detail message.
      */
-    public InvalidFileException(String s) {
+    public CommandException(String s) {
 
         super(s);
     }

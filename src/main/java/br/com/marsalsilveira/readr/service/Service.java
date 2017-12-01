@@ -1,14 +1,13 @@
 package br.com.marsalsilveira.readr.service;
 
-import br.com.marsalsilveira.readr.exception.InvalidFileException;
-import br.com.marsalsilveira.readr.exception.InvalidCommandException;
+import br.com.marsalsilveira.readr.exception.CommandException;
+import br.com.marsalsilveira.readr.exception.FileException;
 import br.com.marsalsilveira.readr.service.command.CommandFactory;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
 import br.com.marsalsilveira.readr.service.file.FileFactory;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,9 +26,23 @@ public final class Service implements ReadrService {
     //* Constructor
     //******************************************************************************************************************
 
-    public Service(String filePath) throws FileNotFoundException, InvalidFileException {
+    public Service() {}
+
+    //******************************************************************************************************************
+    //* Setup | Assert
+    //******************************************************************************************************************
+
+    public void setup(String filePath) throws FileException {
 
         _file = FileFactory.createFile(filePath);
+    }
+
+    private void assertInitialized() {
+
+        if (_file == null) {
+
+            throw new RuntimeException("Service must be fully initialized before use it. Please call `Service.setup(filePath)`.");
+        }
     }
 
     //******************************************************************************************************************
@@ -38,16 +51,22 @@ public final class Service implements ReadrService {
 
     public List<String> commands() {
 
+        this.assertInitialized();
+
         // get all available command and parse it to string (full description)
         return CommandFactory.commands().stream().map(ReadrCommand::fullDescription).collect(Collectors.toList());
     }
 
     public List<String> fields() {
 
+        this.assertInitialized();
+
         return _file.fields();
     }
 
-    public CommandResponse execCommand(String input) throws InvalidCommandException {
+    public CommandResponse execCommand(String input) throws CommandException {
+
+        this.assertInitialized();
 
         ReadrCommand command = CommandFactory.command(input);
         return command.exec(input, _file);

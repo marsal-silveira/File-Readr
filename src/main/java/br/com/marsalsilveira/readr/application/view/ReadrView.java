@@ -1,16 +1,16 @@
-package br.com.marsalsilveira.readr.application.console;
+package br.com.marsalsilveira.readr.application.view;
 
 /**
  *
  */
-public interface ReadrConsole {
+public interface ReadrView {
 
     //******************************************************************************************************************
     //* Open / Close
     //******************************************************************************************************************
 
     // default behavior for these methods are `do nothing...`.
-    // Default behavior is `nothing` because these can be unnecessary to some kind of console.
+    // Default behavior is `nothing` because these can be unnecessary to some kind of view.
     default void open() {}
     default void close() {}
 
@@ -18,9 +18,9 @@ public interface ReadrConsole {
     //* Output / Input
     //******************************************************************************************************************
 
-    void print();
-    void print(String text);
-    void printError(String text);
+    void output();
+    void output(String text);
+    void outputError(String text);
 
     String input(String prefix);
     String input();

@@ -1,27 +1,32 @@
-package br.com.marsalsilveira.readr.application.console;
+package br.com.marsalsilveira.readr.application.view;
 
 import br.com.marsalsilveira.readr.utils.StringUtils;
 
+import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
- * Abstraction to std console (cli).
+ * Abstraction to std view (cli).
  */
-public final class Console implements ReadrConsole {
+public final class ConsoleView implements ReadrView {
 
     //******************************************************************************************************************
     //* Properties
     //******************************************************************************************************************
 
-    private final Scanner _scanner;
+    private final PrintStream _output;
+    private final PrintStream _outputErr;
+    private final Scanner _input;
 
     //******************************************************************************************************************
     //* Constructor
     //******************************************************************************************************************
 
-    public Console() {
+    public ConsoleView() {
 
-        _scanner = new Scanner(System.in);
+        _output = System.out;
+        _outputErr = System.err;
+        _input = new Scanner(System.in);
     }
 
     //******************************************************************************************************************
@@ -30,36 +35,38 @@ public final class Console implements ReadrConsole {
 
     public void close() {
 
-        _scanner.close();
+        _output.close();
+        _outputErr.close();
+        _input.close();
     }
 
     //******************************************************************************************************************
     //* Output / Input
     //******************************************************************************************************************
 
-    public void print() {
+    public void output() {
 
-        this.print(null);
+        this.output(null);
     }
 
-    public void print(String str) {
+    public void output(String str) {
 
-        // to avoid print `null` into console
-        System.out.println(StringUtils.isEmpty(str) ? "" : str);
+        // to avoid output `null` into view
+        _output.println(StringUtils.isEmpty(str) ? "" : str);
     }
 
-    public void printError(String str) {
+    public void outputError(String str) {
 
-        // to avoid print `null` into console
-        System.err.println(StringUtils.isEmpty(str) ? "" : str);
+        // to avoid output `null` into view
+        _outputErr.println(StringUtils.isEmpty(str) ? "" : str);
     }
 
     public String input(String prefix) {
 
-        System.out.print(StringUtils.isEmpty(prefix ) ? "> " : prefix);
+        _output.print(StringUtils.isEmpty(prefix ) ? "> " : prefix);
 
         // wait until user type any value...
-        String input = _scanner.nextLine();
+        String input = _input.nextLine();
 
         return input.trim().toLowerCase();
     }

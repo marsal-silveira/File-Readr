@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidCommandException;
+import br.com.marsalsilveira.readr.exception.CommandException;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
@@ -46,11 +46,11 @@ public class CountAll implements ReadrCommand {
     //* Execution
     //******************************************************************************************************************
 
-    public CommandResponse exec(String input, ReadrFile file) throws InvalidCommandException {
+    public CommandResponse exec(String input, ReadrFile file) throws CommandException {
 
         if (!CountAll.Validator.isValid(input)) {
 
-            throw new InvalidCommandException();
+            throw new CommandException(br.com.marsalsilveira.readr.utils.Strings.invalidCommand);
         }
 
         String result = String.format(CountAll.Strings.response, file.count());

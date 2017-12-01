@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidCommandException;
+import br.com.marsalsilveira.readr.exception.CommandException;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
 import br.com.marsalsilveira.readr.service.file.model.ReadrField;
@@ -52,11 +52,11 @@ public class CountDistinct implements ReadrCommand {
     //* Execution
     //******************************************************************************************************************
 
-    public CommandResponse exec(String input, ReadrFile file) throws InvalidCommandException {
+    public CommandResponse exec(String input, ReadrFile file) throws CommandException {
 
         if (!CountDistinct.Validator.isValid(input)) {
 
-            throw new InvalidCommandException();
+            throw new CommandException(br.com.marsalsilveira.readr.utils.Strings.emptyCommand);
         }
 
         List<String> parts = CollectionUtils.toList(input.toLowerCase());
@@ -67,20 +67,20 @@ public class CountDistinct implements ReadrCommand {
 
             // join all fields parts into another one. eg. `name` and `uf`
             String fields = StringUtils.toString(parts, 2);
-            throw new InvalidCommandException(String.format(CountDistinct.Strings.tooManyFields, fields));
+            throw new CommandException(String.format(CountDistinct.Strings.tooManyFields, fields));
         }
 
         // check if field has been given...
         String fieldName = parts.size() == 3 ? parts.get(2).toLowerCase() : null;
         if (StringUtils.isEmpty(fieldName)) {
 
-            throw new InvalidCommandException(CountDistinct.Strings.fieldNotFound);
+            throw new CommandException(CountDistinct.Strings.fieldNotFound);
         }
 
         // check if field is valid...
         if (!file.fields().contains(fieldName)) {
 
-            throw new InvalidCommandException(String.format(CountDistinct.Strings.invalidField, parts.get(2)));
+            throw new CommandException(String.format(CountDistinct.Strings.invalidField, parts.get(2)));
         }
 
         int count = file.records()

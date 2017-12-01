@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidCommandException;
+import br.com.marsalsilveira.readr.exception.CommandException;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
 
 /**
@@ -20,5 +20,5 @@ public interface ReadrCommand {
     //* Execution
     //******************************************************************************************************************
 
-    CommandResponse exec(String input, ReadrFile file) throws InvalidCommandException;
+    CommandResponse exec(String input, ReadrFile file) throws CommandException;
 }

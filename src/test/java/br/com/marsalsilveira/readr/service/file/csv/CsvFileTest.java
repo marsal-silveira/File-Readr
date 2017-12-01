@@ -1,11 +1,10 @@
 package br.com.marsalsilveira.readr.service.file.csv;
 
-import br.com.marsalsilveira.readr.exception.InvalidFileException;
+import br.com.marsalsilveira.readr.exception.FileException;
 import br.com.marsalsilveira.readr.service.file.FileType;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class CsvFileTest {
             Assert.assertThat(_fields, is(file.fields()));
             Assert.assertEquals(5565, file.count());
             Assert.assertEquals(5565, file.records().size());
-        } catch (FileNotFoundException | InvalidFileException e) {
+        } catch (FileException e) {
             e.printStackTrace();
             Assert.fail();
         }
@@ -69,33 +68,37 @@ public class CsvFileTest {
             Assert.assertThat(_fields, is(file.fields()));
             Assert.assertEquals(0, file.count());
             Assert.assertEquals(0, file.records().size());
-        } catch (FileNotFoundException | InvalidFileException e) {
+        } catch (FileException e) {
             e.printStackTrace();
             Assert.fail();
         }
     }
 
-    @Test(expected = FileNotFoundException.class)
-    public void testSetupFileNotFound() throws FileNotFoundException {
+    @Test(expected = FileException.class)
+    public void testSetupFileNotFound() throws FileException {
 
         String filePath = "src/test/resources/cidades_fake.csv";
-        try {
-            CsvFile file = new CsvFile(filePath);
-        } catch (InvalidFileException e) {
-            e.printStackTrace();
-            Assert.fail();
-        }
+        new CsvFile(filePath);
     }
 
-    @Test(expected = InvalidFileException.class)
-    public void testSetupFileEmpty() throws InvalidFileException {
+    @Test(expected = FileException.class)
+    public void testSetupFileEmpty() throws FileException {
 
         String filePath = "src/test/resources/cidades_empty.csv";
-        try {
-            CsvFile file = new CsvFile(filePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Assert.fail();
-        }
+        new CsvFile(filePath);
+    }
+
+    @Test(expected = FileException.class)
+    public void testSetupFileWithoutExtension() throws FileException {
+
+        String filePath = "src/test/resources/cidades_without_extension";
+        new CsvFile(filePath);
+    }
+
+    @Test(expected = FileException.class)
+    public void testSetupFileInvalidExtension() throws FileException {
+
+        String filePath = "src/test/resources/cidades.txt";
+        new CsvFile(filePath);
     }
 }

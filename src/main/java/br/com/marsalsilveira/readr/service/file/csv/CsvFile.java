@@ -1,15 +1,14 @@
 package br.com.marsalsilveira.readr.service.file.csv;
 
-import br.com.marsalsilveira.readr.exception.InvalidFileException;
+import br.com.marsalsilveira.readr.exception.FileException;
 import br.com.marsalsilveira.readr.service.file.FileType;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
 import br.com.marsalsilveira.readr.service.file.model.ReadrRecord;
-import br.com.marsalsilveira.readr.utils.StringUtils;
+import br.com.marsalsilveira.readr.utils.FileUtils;
 import br.com.marsalsilveira.readr.utils.Strings;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -48,7 +47,7 @@ public final class CsvFile implements ReadrFile {
     //* Constructor
     //******************************************************************************************************************
 
-    public CsvFile(String path) throws FileNotFoundException, InvalidFileException {
+    public CsvFile(String path) throws FileException {
 
         // first of all... validate if path is valid and has a valid csv file
         this.validate(path);
@@ -68,24 +67,19 @@ public final class CsvFile implements ReadrFile {
     //* Validate
     //******************************************************************************************************************
 
-    private void validate(String path) throws FileNotFoundException, InvalidFileException {
+    private void validate(String path) throws FileException {
 
-        // path is empty or invalid...
-        if (StringUtils.isEmpty(path)) {
+        // check the file
+        if (!FileUtils.checkFile(path)) {
 
-            throw new FileNotFoundException(Strings.fileNotFoundExceptionEmptyPath);
+            throw new FileException(String.format(Strings.fileNotFound, path));
         }
 
+        // path is valid... now we check if it isn't empty
         File file = new File(path);
-        if (!file.exists()) {
-
-            throw new FileNotFoundException(path);
-        }
-
-        // path is valid but the file is invalid...
         if (file.length() == 0) {
 
-            throw new InvalidFileException(path);
+            throw new FileException(Strings.fileEmpty);
         }
     }
 
@@ -93,9 +87,9 @@ public final class CsvFile implements ReadrFile {
     //* Fields and records
     //******************************************************************************************************************
 
-    private long getRecordsCount() throws InvalidFileException {
+    private long getRecordsCount() throws FileException {
 
-        long count = 0;
+        long count;
         try (Stream<String> lines = Files.lines(Paths.get(_path))) {
 
             count = lines
@@ -103,12 +97,12 @@ public final class CsvFile implements ReadrFile {
                     .count();
         } catch (IOException e) {
 
-            throw new InvalidFileException("Error extracting file content (records).");
+            throw new FileException("Error extracting file content (records).");
         }
         return count;
     }
 
-    private List<String> getFields() throws InvalidFileException {
+    private List<String> getFields() throws FileException {
 
         List<String> result = new ArrayList<>();
 
@@ -117,14 +111,14 @@ public final class CsvFile implements ReadrFile {
 
             String firstLine = reader.readLine();
 
-            List<String> fieldNames = Arrays.asList(firstLine.split(","));
+            List<String> fieldNames = Arrays.asList(firstLine.split(Strings.comma));
             for (String fieldName : fieldNames) {
 
                 result.add(fieldName.trim());
             }
         } catch (IOException ex) {
 
-            throw new InvalidFileException("Error extracting file fields (model).");
+            throw new FileException("Error extracting file fields (model).");
         }
 
         return result;
@@ -150,7 +144,7 @@ public final class CsvFile implements ReadrFile {
                 CsvRecord record = new CsvRecord();
                 int index = -1;
 
-                List<String> values = Arrays.asList(line.split(","));
+                List<String> values = Arrays.asList(line.split(Strings.comma));
                 for (String value : values) {
 
                     index++;

@@ -1,6 +1,6 @@
 package br.com.marsalsilveira.readr.service.command.command;
 
-import br.com.marsalsilveira.readr.exception.InvalidCommandException;
+import br.com.marsalsilveira.readr.exception.CommandException;
 import br.com.marsalsilveira.readr.service.command.CommandResponse;
 import br.com.marsalsilveira.readr.service.command.ReadrCommand;
 import br.com.marsalsilveira.readr.service.file.model.ReadrFile;
@@ -51,11 +51,11 @@ public class FilterPropertyValue implements ReadrCommand {
     //* Execution
     //******************************************************************************************************************
 
-    public CommandResponse exec(String input, ReadrFile file) throws InvalidCommandException {
+    public CommandResponse exec(String input, ReadrFile file) throws CommandException {
 
         if (!FilterPropertyValue.Validator.isValid(input)) {
 
-            throw new InvalidCommandException();
+            throw new CommandException(br.com.marsalsilveira.readr.utils.Strings.invalidCommand);
         }
 
         // check if field and value are valid...
@@ -65,7 +65,7 @@ public class FilterPropertyValue implements ReadrCommand {
         String fieldName = parts.get(1).toLowerCase();
         if (!file.fields().contains(fieldName)) {
 
-            throw new InvalidCommandException(String.format(FilterPropertyValue.Strings.invalidField, parts.get(1)));
+            throw new CommandException(String.format(FilterPropertyValue.Strings.invalidField, parts.get(1)));
         }
 
         // join all parts of value filter to another one... eg. `são` `josé` -> `são josé`
@@ -74,7 +74,7 @@ public class FilterPropertyValue implements ReadrCommand {
         // check if the field value has been given...
         if (StringUtils.isEmpty(fieldValue)) {
 
-            throw new InvalidCommandException(FilterPropertyValue.Strings.valueNotFound);
+            throw new CommandException(FilterPropertyValue.Strings.valueNotFound);
         }
 
         List<String> records = file.records()
