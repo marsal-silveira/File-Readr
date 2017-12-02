@@ -8,32 +8,60 @@ File Reader is a command line tool that allows you to get some data from a file.
 - JDK 8+
 - Maven
 
-## Usage
+## Setup
  
-### 1.1. Clone it
+### Cloning
+
+1. On GitHub, navigate to the main page of the repository.
+
+2. Under the repository name, click **Clone or download**.
+
+3. In the Clone with HTTPs section, click under copy icon to copy the clone URL for the repository.
+
+4. Open Terminal.
+
+5. Change the current working directory to the location where you want the cloned directory to be made.
+
+6. Type `git clone`, and then paste the URL you copied in Step 2.
 
 ```
-git clone https://github.com/marsal-silveira/File-Readr.git
+$ git clone https://github.com/marsal-silveira/File-Readr.git
 ```
 
-### 1.2. Download it
+7. Press **Enter**. Your local clone will be created.
+
+**or**
+
+### Downloading
+
+1. On GitHub, navigate to the main page of the repository.
+
+2. Under the repository name, click **Clone or download**.
+
+3. In the Clone with HTTPs section, click under `Download Zip` button to download it.
+
+**or**
 
 Download the [latest code version](https://github.com/marsal-silveira/File-Readr/archive/master.zip) and extract it into workspace.
 
-### 2. Run Tests
+## Usage
 
-At `File-Readr` folder run: 
+Open Terminal app (or equivalent) and navigate to `File-Readr` project directory.
 
-```
-mvn clean test
-```
+### Run Tests
 
-## 4. Run Application
-
-At `File-Readr` folder run:
+At `File-Readr` root folder run: 
 
 ```
-mvn clean package
+$ mvn clean test
+```
+
+### Run Application
+
+At `File-Readr` root folder run:
+
+```
+$ mvn clean package
 ```
 
 This will generate `file-readr-1.0.0.jar` at `target` folder.
@@ -41,8 +69,14 @@ This will generate `file-readr-1.0.0.jar` at `target` folder.
 Check if jar file is there and run:
 
 ```
-java -jar target/file-readr-1.0.0.jar
+$ java -jar target/file-readr-1.0.0.jar
 ```
+
+Note: To access the default file `resources/cidades.csv` this command must be executed at `File-Readr` root folder.
+### Using IDE
+
+This project can be imported as a `Maven Project` in any IDE that support this format.
+     
 
 ## License
 
