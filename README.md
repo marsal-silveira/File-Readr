@@ -1,6 +1,7 @@
 # File-Readr
 File Reader is a command line tool that allows you to get some data from a file.
 
+[![Build Status](https://travis-ci.org/marsal-silveira/File-Readr.svg?branch=master)](https://travis-ci.org/marsal-silveira/File-Readr)
 
 ## Requirements
 
